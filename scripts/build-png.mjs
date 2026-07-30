@@ -1,101 +1,49 @@
-/**
- * 莫恩瑟利亚 v2.6 — 标准同层前端卡
- *
- * 参考艾瑟洛斯/同梦/凡人修仙传：
- * regex 触发 → 代码块 ← tavern_helper 渲染 → $('body').load() 加载前端
- * 前端独立 HTML，替换整个 body，不受 CSS transform 影响
- */
-
 import fs from 'fs'
 import zlib from 'zlib'
 
 const root = 'D:/.openclaw/workspace/projects/Mornsaelia-tavern'
 
-// 前端 HTML
-const frontendHTML = fs.readFileSync(root + '/src/莫恩瑟利亚/前端/index.html', 'utf-8')
-  .replace(/https:\/\/testingcf\.jsdelivr\.net\/npm\/@fortawesome\/fontawesome-free@6\/css\/all\.min\.css/, 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css')
-  .replace(/\n\s*/g, ' ').replace(/\s{2,}/g, ' ')
-
-// 代码块：直接内联完整前端 HTML（9.3KB，自包含）
-const codeBlock = [
-  '```',
-  '<body>',
-  frontendHTML,
-  '</body>',
-  '```',
-].join('\n')
+// 前端 HTML → base64 → document.write loader
+const fhtml = fs.readFileSync(root + '/src/莫恩瑟利亚/前端/index.html', 'utf-8')
+const hb64 = Buffer.from(fhtml, 'utf-8').toString('base64')
+const inject = '<script>document.write(atob("' + hb64 + '"));<\u002Fscript>'
 
 const regexScripts = [{
-  id: 'mornsaelia_panel',
-  scriptName: '莫恩瑟利亚面板',
-  disabled: false,
-  runOnEdit: true,
-  findRegex: '/(莫恩瑟利亚)/s',
-  replaceString: codeBlock,
-  placement: [1, 2],
-  markdownOnly: true,
-  promptOnly: false,
-  substituteRegex: false,
+  id: 'mornsaelia_panel', scriptName: '莫恩瑟利亚面板',
+  findRegex: '/(莫恩瑟利亚)/s', replaceString: inject,
+  placement: [2], markdownOnly: true, promptOnly: false, disabled: false,
 }]
 
-// 第一条消息仅作为关键词触发器，完整叙事在面板中展示
-const firstMsg = [
-  '# 莫恩瑟利亚',
-  '__',
-  '**开始冒险→**',
-  '',
-  '<status>',
-  'HP: 100/100 | MP: 50/50 | LV: 1 | EXP: 0/100',
-  '位置: 起始之森',
-  '</status>',
-].join('\n')
+const firstMsg = ['# 莫恩瑟利亚', '__', '**开始冒险→**', '', '<status>', 'HP: 100/100 | MP: 50/50 | LV: 1 | EXP: 0/100', '位置: 起始之森', '</status>'].join('\n')
 
 const card = {
   name: '莫恩瑟利亚', spec: 'chara_card_v3', spec_version: '3.0',
   description: '开放世界RPG — 同层前端卡',
   personality: 'GM。引导冒险、扮演NPC、管理D20检定。',
   scenario: '玩家在莫恩瑟利亚大陆苏醒，探索地图，与NPC互动，接受任务，战斗成长。',
-  first_mes: firstMsg,
-  mes_example: '',
-  creatorcomment: '渊琳 v2.6',
-  avatar: 'none',
-  talkativeness: '0.5',
-  fav: false,
+  first_mes: firstMsg, mes_example: '', creatorcomment: '渊琳 v2.7',
+  avatar: 'none', talkativeness: '0.5', fav: false,
   tags: ['RPG', '开放世界', '同层前端', '莫恩瑟利亚'],
   data: {
-    name: '莫恩瑟利亚',
-    description: '开放世界RPG — 同层前端卡',
+    name: '莫恩瑟利亚', description: '开放世界RPG — 同层前端卡',
     personality: 'GM。引导冒险、扮演NPC、管理D20检定。',
     scenario: '玩家在莫恩瑟利亚大陆苏醒，探索地图，与NPC互动，接受任务，战斗成长。',
-    first_mes: firstMsg,
-    mes_example: '',
-    creator_notes: '渊琳 v2.6 — 同层前端卡（$(' + "'body').load(CDN)" + '）',
-    character_version: 'v2.6',
+    first_mes: firstMsg, mes_example: '',
+    creator_notes: '渊琳 v2.7 — document.write 注入',
+    character_version: 'v2.7',
     system_prompt: 'GM。描述场景、扮演NPC、D20检定。每次回复<status><options>。',
     post_history_instructions: '每次回复<status><options>。',
-    tags: ['RPG', '开放世界', '同层前端', '莫恩瑟利亚'],
-    creator: '苏渊琳',
+    tags: ['RPG', '开放世界', '同层前端', '莫恩瑟利亚'], creator: '苏渊琳',
     alternate_greetings: ['莫恩瑟利亚'],
-    extensions: {
-      regex_scripts: regexScripts,
-      depth_prompt: { prompt: '', depth: 4, role: 'system' },
-    },
-    character_book: {
-      entries: [{
-        id: 0, keys: [], constant: true, insertion_order: 1, enabled: true,
-        position: 'before_char', content: '回复格式：<status><content><options>',
-      }],
-      name: '莫恩瑟利亚',
-    },
+    extensions: { regex_scripts: regexScripts, depth_prompt: { prompt: '', depth: 4, role: 'system' } },
+    character_book: { entries: [{ id: 0, keys: [], constant: true, insertion_order: 1, enabled: true, position: 'before_char', content: '回复格式：<status><content><options>' }], name: '莫恩瑟利亚' },
   },
 }
 
 const jsonStr = JSON.stringify(card)
-console.log(`📦 前端: ${(frontendHTML.length / 1024).toFixed(1)} KB`)
-console.log(`📦 代码块: ${codeBlock.length} 字符`)
-console.log(`📦 JSON: ${(jsonStr.length / 1024).toFixed(1)} KB`)
+console.log(`📦 注入: ${(inject.length / 1024).toFixed(1)} KB | JSON: ${(jsonStr.length / 1024).toFixed(1)} KB`)
 
-// === PNG ===
+// PNG
 function crc32(b) {
   let c = 0xFFFFFFFF; const t = new Int32Array(256)
   for (let i = 0; i < 256; i++) { let cr = i; for (let j = 0; j < 8; j++) cr = (cr & 1) ? 0xEDB88320 ^ (cr >>> 1) : cr >>> 1; t[i] = cr }
@@ -128,9 +76,8 @@ ih.writeUInt32BE(w, 0); ih.writeUInt32BE(h, 4); ih[8] = 8; ih[9] = 6
 const sg = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])
 let png = Buffer.concat([sg, mc('IHDR', ih), mc('IDAT', id), mc('IEND', Buffer.alloc(0))])
 function ins(p, c) { let i = 8; while (i < p.length - 4) { if (p.slice(i + 4, i + 8).toString() === 'IEND') break; i += 12 + p.readUInt32BE(i) }; return Buffer.concat([p.slice(0, i), c, p.slice(i)]) }
-const b64 = Buffer.from(jsonStr, 'utf-8').toString('base64')
-png = ins(png, mt('chara', b64)); png = ins(png, mt('ccv3', b64))
-
+const cb64 = Buffer.from(jsonStr, 'utf-8').toString('base64')
+png = ins(png, mt('chara', cb64)); png = ins(png, mt('ccv3', cb64))
 fs.mkdirSync(root + '/dist/莫恩瑟利亚/角色卡', { recursive: true })
 fs.writeFileSync(root + '/dist/莫恩瑟利亚/角色卡/莫恩瑟利亚.png', png)
 console.log(`✅ 已生成: ${(png.length / 1024).toFixed(1)} KB`)
