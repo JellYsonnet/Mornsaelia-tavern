@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+</head>
+<body><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    background:#0d0a08;color:#f0e6d2;
+    font-family:'Georgia','Noto Serif SC',serif;
+    height:100vh;width:100vw;overflow:hidden;
+    display:flex;flex-direction:column;
+}
+
+/* 启动画面 */
+#sp{
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    background:radial-gradient(ellipse at center,#1a1410,#0d0a08);z-index:2000;
+    transition:opacity .5s;
+}
+#sp.h{opacity:0;pointer-events:none}
+#sp h1{font-size:3em;color:#c9a84c;margin-bottom:8px}
+#sp p{color:#a09080;font-style:italic;margin-bottom:30px}
+#sp button{
+    padding:12px 32px;font-size:1em;border:2px solid #8c7853;
+    background:transparent;color:#c9a84c;border-radius:4px;cursor:pointer;margin:0 8px;
+}
+#sp button:hover{background:#c9a84c;color:#0d0a08}
+#sp button.s{border-color:#5a4e3c;color:#a09080}
+
+/* 主面板 */
+#pn{display:none;width:100%;height:100vh;flex:1}
+#pn.a{display:flex}
+
+.left{
+    width:240px;min-width:240px;background:#1a1410;
+    border-right:1px solid #241e18;padding:12px;
+    display:flex;flex-direction:column;gap:8px;overflow-y:auto;
+}
+.bx{background:#241e18;border:1px solid #5a4e3c;border-radius:5px;padding:10px}
+.bx h4{font-size:.7em;color:#c9a84c;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.sr{display:flex;justify-content:space-between;font-size:.75em;margin-bottom:3px;color:#a09080}
+.sr .v{color:#f0e6d2}
+.bar{height:6px;background:#0d0a08;border-radius:3px;overflow:hidden;border:1px solid #5a4e3c;margin-bottom:4px}
+.fl{height:100%;transition:width .5s}
+.fl.hp{background:#e57373}.fl.mp{background:#64b5f6}.fl.exp{background:#ffd54f}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.sc{font-size:.7em;background:#0d0a08;padding:2px 5px;border-radius:2px;display:flex;justify-content:space-between}
+.sc .k{color:#a09080}.sc .v{color:#c9a84c;font-weight:bold}
+.ln{font-size:.8em;color:#c9a84c}.ld{font-size:.68em;color:#a09080;font-style:italic}
+
+.center{flex:1;display:flex;flex-direction:column;background:#0d0a08;min-width:0}
+.hd{padding:8px 14px;border-bottom:1px solid #241e18;display:flex;justify-content:space-between;font-size:.8em;flex-shrink:0}
+.hd .t{color:#c9a84c}.hd .tm{color:#605548}
+.lg{flex:1;overflow-y:auto;padding:10px 14px;display:flex;flex-direction:column;gap:6px}
+.ms{padding:7px 10px;background:#241e18;border:1px solid #5a4e3c;border-radius:4px;font-size:.8em;line-height:1.5}
+.ms.s{border-left:3px solid #c9a84c;font-style:italic;color:#a09080;font-size:.74em}
+.ms .h{font-size:.65em;color:#605548;margin-bottom:2px}
+.ax{padding:8px 14px;border-top:1px solid #241e18;display:flex;flex-direction:column;gap:4px;max-height:160px;overflow-y:auto;flex-shrink:0}
+.ab{padding:6px 10px;background:#241e18;border:1px solid #5a4e3c;color:#f0e6d2;font-size:.76em;border-radius:3px;cursor:pointer;text-align:left}
+.ab:hover{background:#8c7853;color:#0d0a08}
+
+.right{
+    width:220px;min-width:220px;background:#1a1410;
+    border-left:1px solid #241e18;padding:12px;
+    display:flex;flex-direction:column;gap:8px;overflow-y:auto;
+}
+.es{display:flex;gap:6px;padding:4px 7px;background:#0d0a08;border:1px solid #5a4e3c;border-radius:3px;font-size:.7em}
+.es .l{color:#605548;min-width:35px}.es .i{color:#f0e6d2}.es .e{color:#605548;font-style:italic}
+.iv{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.ic{aspect-ratio:1;background:#0d0a08;border:1px solid #5a4e3c;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.6em}
+.bn{padding:6px;background:#241e18;border:1px solid #5a4e3c;color:#a09080;font-size:.72em;border-radius:3px;cursor:pointer;text-align:center}
+.bn:hover{background:#8c7853;color:#0d0a08}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:#0d0a08}
+::-webkit-scrollbar-thumb{background:#5a4e3c;border-radius:2px}
+@media(max-width:768px){.left,.right{display:none}}
+</style>
+
+<div id="sp">
+    <h1>莫恩瑟利亚</h1>
+    <p>— 开放世界 RPG —</p>
+    <div>
+        <button onclick="G.start()">新的旅程</button>
+        <button class="s" onclick="G.load()">继续冒险</button>
+    </div>
+</div>
+
+<div id="pn">
+    <div class="left">
+        <div class="bx">
+            <h4>✦ 角色</h4>
+            <div style="font-size:.85em;color:#c9a84c;margin-bottom:4px">Lv.<span id="lv">1</span> · <span id="nm">旅人</span></div>
+            <div class="sr">HP <span class="v"><span id="hp">100</span>/<span id="hpm">100</span></span></div>
+            <div class="bar"><div class="fl hp" id="hpb" style="width:100%"></div></div>
+            <div class="sr">MP <span class="v"><span id="mp">50</span>/<span id="mpm">50</span></span></div>
+            <div class="bar"><div class="fl mp" id="mpb" style="width:100%"></div></div>
+            <div class="sr">EXP <span class="v"><span id="ex">0</span>/<span id="exn">100</span></span></div>
+            <div class="bar"><div class="fl exp" id="exb" style="width:0%"></div></div>
+        </div>
+        <div class="bx"><h4>✦ 属性</h4><div class="sg" id="st"></div></div>
+        <div class="bx" style="flex:1"><h4>✦ 位置</h4><div class="ln" id="lo">起始之村</div><div class="ld" id="lod">...</div></div>
+    </div>
+    <div class="center">
+        <div class="hd"><span class="t" id="sn">起始之村</span><span class="tm" id="ti">第1日 08:00</span></div>
+        <div class="lg" id="lg"></div>
+        <div class="ax" id="ax"></div>
+    </div>
+    <div class="right">
+        <div class="bx"><h4>✦ 装备</h4><div id="eq"></div></div>
+        <div class="bx" style="flex:1"><h4>✦ 背包</h4><div class="iv" id="iv"></div></div>
+        <button class="bn" onclick="G.save()">💾 存档</button>
+        <button class="bn" onclick="G.load()">📂 读档</button>
+        <button class="bn" onclick="G.exit()" style="border-color:#8b0000;color:#e57373">✕ 关闭</button>
+    </div>
+</div>
+
+<script>
+var MAP = {
+    L:[
+        {i:'起始之村',n:'起始之村',d:'宁静的小村庄，麦田环绕。',x:[{t:'迷雾森林',m:'北面小路'},{t:'风铃镇',m:'东面商道'}],s:1},
+        {i:'迷雾森林',n:'迷雾森林',d:'浓雾终年的古老森林。',x:[{t:'起始之村',m:'南面回村'},{t:'矿洞遗址',m:'西面洞口'},{t:'风铃镇',m:'东面捷径'}]},
+        {i:'风铃镇',n:'风铃镇',d:'热闹的贸易小镇。',x:[{t:'起始之村',m:'西面大道'},{t:'迷雾森林',m:'西面森林'},{t:'王都',m:'北面大道'},{t:'古城废墟',m:'东面旧道'}],s:1},
+        {i:'矿洞遗址',n:'矿洞遗址',d:'废弃多年的矿洞。',x:[{t:'迷雾森林',m:'洞口外'}]},
+        {i:'王都',n:'王都',d:'王国中心，城堡高耸。',x:[{t:'风铃镇',m:'南面大道'}],s:1},
+        {i:'古城废墟',n:'古城废墟',d:'古文明遗迹。',x:[{t:'风铃镇',m:'西面旧道'},{t:'龙脊山',m:'北面山路'}]},
+        {i:'龙脊山',n:'龙脊山',d:'形如龙脊的山脉。',x:[{t:'古城废墟',m:'下山'}]},
+    ],
+    f:function(id){return this.L.find(function(l){return l.i===id})}
+};
+var Dflt={
+    p:{n:'旅人',l:1,x:0,xn:100,h:100,hm:100,m:50,mm:50,g:0,s:{str:10,dex:10,con:10,int:10,wis:10,cha:10}},
+    l:'起始之村',v:[],e:{w:null,a:null,c:null},t:{d:1,h:8},o:['起始之村'],g:[]
+};
+var G={
+    s:null,
+    start:function(){
+        this.s=JSON.parse(JSON.stringify(Dflt));
+        document.getElementById('sp').classList.add('h');
+        document.getElementById('pn').classList.add('a');
+        this.u();var l=MAP.f(this.s.l);if(l)this.m('s','踏入 '+l.n+'。'+l.d);this.o();
+    },
+    load:function(){
+        try{
+            var d=localStorage.getItem('mns_s');
+            if(!d){this.start();return;}
+            this.s=JSON.parse(d);
+            document.getElementById('sp').classList.add('h');
+            document.getElementById('pn').classList.add('a');
+            this.u();this.m('s','📂 已读取存档');this.o();
+        }catch(e){this.start();}
+    },
+    save:function(){
+        if(!this.s)return;
+        localStorage.setItem('mns_s',JSON.stringify(this.s));
+        this.m('s','💾 已保存');
+    },
+    exit:function(){location.reload()},
+    go:function(id){
+        if(!this.s)return;
+        this.s.l=id;
+        if(!this.s.o.includes(id))this.s.o.push(id);
+        this.s.t.h+=2;if(this.s.t.h>=24){this.s.t.h-=24;this.s.t.d++;}
+        this.u();var l=MAP.f(id);if(l)this.m('s','—— 前往 '+l.n+' ——\n'+l.d);this.o();
+    },
+    m:function(tp,t){
+        var lg=document.getElementById('lg');
+        var m=document.createElement('div');m.className='ms'+(tp==='s'?' s':'');
+        if(tp!=='p'){
+            var h=document.createElement('div');h.className='h';
+            h.textContent='第'+this.s.t.d+'日 '+String(this.s.t.h).padStart(2,'0')+':00';
+            m.appendChild(h);
+        }
+        var c=document.createElement('div');c.textContent=t;m.appendChild(c);
+        lg.appendChild(m);lg.scrollTop=lg.scrollHeight;
+    },
+    u:function(){
+        var p=this.s.p;
+        document.getElementById('lv').textContent=p.l;
+        document.getElementById('nm').textContent=p.n;
+        document.getElementById('hp').textContent=p.h;document.getElementById('hpm').textContent=p.hm;
+        document.getElementById('hpb').style.width=(p.h/p.hm*100)+'%';
+        document.getElementById('mp').textContent=p.m;document.getElementById('mpm').textContent=p.mm;
+        document.getElementById('mpb').style.width=(p.m/p.mm*100)+'%';
+        document.getElementById('ex').textContent=p.x;document.getElementById('exn').textContent=p.xn;
+        document.getElementById('exb').style.width=Math.min(100,p.x/p.xn*100)+'%';
+        var st=document.getElementById('st');st.innerHTML='';
+        var ks=['str','dex','con','int','wis','cha'];
+        for(var i=0;i<ks.length;i++){
+            var k=ks[i];
+            st.innerHTML+='<div class="sc"><span class="k">'+k.toUpperCase()+'</span><span class="v">'+p.s[k]+'</span></div>';
+        }
+        var l=MAP.f(this.s.l);
+        if(l){
+            document.getElementById('lo').textContent=l.n;
+            document.getElementById('lod').textContent=l.d;
+            document.getElementById('sn').textContent=l.n;
+        }
+        document.getElementById('ti').textContent='第'+this.s.t.d+'日 '+String(this.s.t.h).padStart(2,'0')+':00';
+        var eq=document.getElementById('eq');eq.innerHTML='';
+        var em={w:'武器',a:'防具',c:'饰品'};
+        for(var k in em){
+            var d=document.createElement('div');d.className='es';
+            d.innerHTML='<span class="l">'+em[k]+'</span><span class="'+(this.s.e[k]?'i':'e')+'">'+(this.s.e[k]||'空')+'</span>';
+            eq.appendChild(d);
+        }
+        var iv=document.getElementById('iv');iv.innerHTML='';
+        for(var i=0;i<12;i++){
+            var c=document.createElement('div');c.className='ic';
+            if(i<this.s.v.length){c.textContent='📦';c.style.color='#f0e6d2';c.style.borderColor='#8c7853';}
+            iv.appendChild(c);
+        }
+    },
+    o:function(){
+        var ax=document.getElementById('ax');ax.innerHTML='';
+        var l=MAP.f(this.s.l);if(!l)return;
+        for(var i=0;i<l.x.length;i++){
+            var e=l.x[i];
+            var b=document.createElement('button');b.className='ab';
+            b.textContent='➡ '+e.t+' ('+e.m+')';
+            b.onclick=function(id){return function(){G.go(id);}}(e.t);
+            ax.appendChild(b);
+        }
+    }
+};
+</script>
+</body>
+</html>
