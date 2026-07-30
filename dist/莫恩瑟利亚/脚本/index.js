@@ -1,0 +1,1 @@
+import'https://testingcf.jsdelivr.net/gh/你的用户名/仓库名/dist/莫恩瑟利亚/前端/index.html';
