@@ -1,0 +1,52 @@
+name: 构建与发布莫恩瑟利亚
+
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: mornsaelia-frontend
+          path: dist/
+
+      - name: 发布到 GitHub Pages
+        if: github.event_name == 'release'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist/莫恩瑟利亚/前端
+          publish_branch: gh-pages
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+
+      - name: 创建 Release Asset（角色卡 PNG）
+        if: github.event_name == 'release'
+        run: |
+          cd dist/莫恩瑟利亚/角色卡
+          for f in *.png; do
+            gh release upload ${{ github.event.release.tag_name }} "$f"
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

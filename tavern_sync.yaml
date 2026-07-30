@@ -1,0 +1,29 @@
+# tavern_sync.yaml — 莫恩瑟利亚同步配置
+# 参考艾瑟洛斯同步方案
+
+version: 1
+
+source:
+  type: github
+  owner: JellYsonnet
+  repo: Mornsaelia-tavern
+  branch: main
+
+assets:
+  - name: 角色卡
+    type: png
+    source_path: dist/莫恩瑟利亚/角色卡/*.png
+    description: 莫恩瑟利亚角色卡（chara_card_v3）
+
+  - name: 前端资源
+    type: cdn
+    source_path: dist/莫恩瑟利亚/前端/*
+    cdn_provider: jsdelivr
+    cdn_url: "https://cdn.jsdelivr.net/gh/JellYsonnet/Mornsaelia-tavern@{tag}/dist/莫恩瑟利亚/前端/"
+    description: 前端界面资源（通过 jsDelivr CDN 加载）
+
+sync_triggers:
+  - on: release
+    action: update_cdn
+  - on: push
+    action: build_only
