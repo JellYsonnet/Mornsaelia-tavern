@@ -3,14 +3,20 @@ import zlib from 'zlib'
 
 const root = 'D:/.openclaw/workspace/projects/Mornsaelia-tavern'
 
-// 标准 tavern_helper 前端界面
-// $('body').load(CDN) 加载前端 HTML，替换 body
-const frontendUrl = 'https://testingcf.jsdelivr.net/gh/JellYsonnet/Mornsaelia-tavern@main/dist/莫恩瑟利亚/前端/index.html'
-const codeBlock = '```\n<body>\n<script>\n$(\'body\').load(\'' + frontendUrl + '\')\n</script>\n</body>\n```'
+// 脚本文本：创建 fixed 全屏 RPG 面板，覆盖整个酒馆界面
+const script = fs.readFileSync(root + '/src/莫恩瑟利亚/脚本/index.ts', 'utf-8')
+  .replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '')
+  .replace(/\n\s*/g, ' ').replace(/\s{2,}/g, ' ')
+  .replace(/\s*([{}();,:<>=+\-*/!])\s*/g, '$1')
+// 包装为自执行函数
+const inject = '(function(){' + script + '})()'
+const replaceStr = '<script>' + inject + '</' + 'script>'
+
+console.log(`📦 脚本: ${(inject.length / 1024).toFixed(1)} KB`)
 
 const regexScripts = [{
-  id: 'mornsaelia_panel', scriptName: '莫恩瑟利亚面板',
-  findRegex: '/(莫恩瑟利亚)/s', replaceString: codeBlock,
+  id: 'mornsaelia_overlay', scriptName: '莫恩瑟利亚面板',
+  findRegex: '/(莫恩瑟利亚)/s', replaceString: replaceStr,
   placement: [2], markdownOnly: true, promptOnly: false, disabled: false,
 }]
 
@@ -18,22 +24,22 @@ const firstMsg = ['# 莫恩瑟利亚', '__', '**开始冒险→**', '', '<status
 
 const card = {
   name: '莫恩瑟利亚', spec: 'chara_card_v3', spec_version: '3.0',
-  description: '开放世界RPG — 同层前端卡',
+  description: '开放世界RPG — 全屏脚本面板',
   personality: 'GM。引导冒险、扮演NPC、管理D20检定。',
   scenario: '玩家在莫恩瑟利亚大陆苏醒，探索地图，与NPC互动，接受任务，战斗成长。',
   first_mes: firstMsg, mes_example: '', creatorcomment: '渊琳',
   avatar: 'none', talkativeness: '0.5', fav: false,
-  tags: ['RPG', '开放世界', '同层前端', '莫恩瑟利亚'],
+  tags: ['RPG', '开放世界', '脚本面板', '莫恩瑟利亚'],
   data: {
-    name: '莫恩瑟利亚', description: '开放世界RPG — 同层前端卡',
+    name: '莫恩瑟利亚', description: '开放世界RPG — 全屏脚本面板',
     personality: 'GM。引导冒险、扮演NPC、管理D20检定。',
     scenario: '玩家在莫恩瑟利亚大陆苏醒，探索地图，与NPC互动，接受任务，战斗成长。',
     first_mes: firstMsg, mes_example: '',
-    creator_notes: '渊琳 — 标准同层前端卡',
-    character_version: 'v2.7',
+    creator_notes: '渊琳 — 裸 script fixed 覆盖层',
+    character_version: 'v2.8',
     system_prompt: 'GM。描述场景、扮演NPC、D20检定。每次回复<status><options>。',
     post_history_instructions: '每次回复<status><options>。',
-    tags: ['RPG', '开放世界', '同层前端', '莫恩瑟利亚'], creator: '苏渊琳',
+    tags: ['RPG', '开放世界', '脚本面板', '莫恩瑟利亚'], creator: '苏渊琳',
     alternate_greetings: ['莫恩瑟利亚'],
     extensions: { regex_scripts: regexScripts, depth_prompt: { prompt: '', depth: 4, role: 'system' } },
     character_book: { entries: [{ id: 0, keys: [], constant: true, insertion_order: 1, enabled: true, position: 'before_char', content: '回复格式：<status><content><options>' }], name: '莫恩瑟利亚' },
