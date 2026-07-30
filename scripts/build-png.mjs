@@ -1,68 +1,64 @@
 /**
- * 莫恩瑟利亚 v2.3 — alternate_greetings 脚本方案
- * 
- * 脚本放在招呼里，用户下拉招呼时在酒馆主文档创建固定全屏面板
- * 不用 regex，不依赖任何扩展
+ * 莫恩瑟利亚 v2.4 — regex_scripts + $1 捕获组方案
  */
 
 import fs from 'fs'
 import zlib from 'zlib'
 
 const root = 'D:/.openclaw/workspace/projects/Mornsaelia-tavern'
-
 const firstMsg = fs.readFileSync(root + '/src/莫恩瑟利亚/角色卡/第一条消息/0.md', 'utf-8').trim()
 
-// 脚本
 const scriptCode = fs.readFileSync(root + '/src/莫恩瑟利亚/脚本/index.ts', 'utf-8')
 const inlineScript = '(function(){' + scriptCode
-  .replace(/\/\/.*$/gm, '')
-  .replace(/\/\*[\s\S]*?\*\//g, '')
-  .replace(/\n\s*/g, ' ')
-  .replace(/\s{2,}/g, ' ')
+  .replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '')
+  .replace(/\n\s*/g, ' ').replace(/\s{2,}/g, ' ')
   .replace(/\s*([{}();,:<>=+\-*/!])\s*/g, '$1')
   + '})()'
 
-// 招呼：代码块中的 HTML 脚本，tavern_helper 会渲染
-const greeting = [
-  '```',
-  '<body>',
-  '<script>',
-  inlineScript,
-  '</script>',
-  '</body>',
-  '```',
-].join('\n')
+console.log(`📦 内联脚本: ${inlineScript.length} 字符`)
 
-console.log(`📦 内联脚本: ${(inlineScript.length / 1024).toFixed(1)} KB`)
-console.log(`📦 招呼长度: ${greeting.length} 字符`)
+// regex 注入（使用 $1 捕获组替代 $&）
+const regexScripts = [{
+  id: 'mornsaelia_panel',
+  scriptName: '莫恩瑟利亚面板',
+  disabled: false,
+  runOnEdit: false,
+  findRegex: '/(.*)/s',
+  replaceString: '<script>' + inlineScript + '</script>\n$1',
+  placement: [2],
+  markdownOnly: true,
+  promptOnly: false,
+  substituteRegex: false,
+}]
 
 const card = {
   name: '莫恩瑟利亚', spec: 'chara_card_v3', spec_version: '3.0',
-  description: '开放世界RPG — 招呼脚本面板',
+  description: '开放世界RPG — 脚本面板',
   personality: 'GM。引导冒险、扮演NPC、管理D20检定。',
   scenario: '玩家在莫恩瑟利亚大陆苏醒，探索地图，与NPC互动，接受任务，战斗成长。',
   first_mes: firstMsg,
   mes_example: '',
-  creatorcomment: '渊琳 v2.3',
+  creatorcomment: '渊琳 v2.4',
   avatar: 'none',
   talkativeness: '0.5',
   fav: false,
   tags: ['RPG', '开放世界', '脚本面板', '莫恩瑟利亚'],
   data: {
     name: '莫恩瑟利亚',
-    description: '开放世界RPG — 招呼脚本面板',
+    description: '开放世界RPG — 脚本面板',
     personality: 'GM。引导冒险、扮演NPC、管理D20检定。',
     scenario: '玩家在莫恩瑟利亚大陆苏醒，探索地图，与NPC互动，接受任务，战斗成长。',
     first_mes: firstMsg,
     mes_example: '',
-    creator_notes: '渊琳 v2.3 — 招呼脚本全屏面板',
-    character_version: 'v2.3',
+    creator_notes: '渊琳 v2.4 — regex 脚本 + $1 捕获',
+    character_version: 'v2.4',
     system_prompt: 'GM。描述场景、扮演NPC、D20检定。每次回复<status><options>。',
     post_history_instructions: '每次回复<status><options>。',
     tags: ['RPG', '开放世界', '脚本面板', '莫恩瑟利亚'],
     creator: '苏渊琳',
-    alternate_greetings: [greeting],
+    alternate_greetings: [],
     extensions: {
+      regex_scripts: regexScripts,
       depth_prompt: { prompt: '', depth: 4, role: 'system' },
       tavern_helper: [['scripts', []], ['variables', {}]],
     },
@@ -83,31 +79,27 @@ console.log(`📦 角色卡 JSON: ${(jsonStr.length / 1024).toFixed(1)} KB`)
 function crc32(b) {
   let c = 0xFFFFFFFF; const t = new Int32Array(256)
   for (let i = 0; i < 256; i++) { let cr = i; for (let j = 0; j < 8; j++) cr = (cr & 1) ? 0xEDB88320 ^ (cr >>> 1) : cr >>> 1; t[i] = cr }
-  for (let i = 0; i < b.length; i++) c = t[(c ^ b[i]) & 0xFF] ^ (c >>> 8)
-  return (c ^ 0xFFFFFFFF) >>> 0
+  for (let i = 0; i < b.length; i++) c = t[(c ^ b[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0
 }
 function mc(t, d) {
-  const tb = Buffer.from(t, 'ascii'), l = Buffer.alloc(4)
-  l.writeUInt32BE(d.length); const cd = Buffer.concat([tb, d]); const c = Buffer.alloc(4)
-  c.writeUInt32BE(crc32(cd))
-  return Buffer.concat([l, tb, d, c])
+  const l = Buffer.alloc(4); l.writeUInt32BE(d.length)
+  const tb = Buffer.from(t, 'ascii'), cd = Buffer.concat([tb, d]), c = Buffer.alloc(4)
+  c.writeUInt32BE(crc32(cd)); return Buffer.concat([l, tb, d, c])
 }
 function mt(k, d) {
   const data = Buffer.concat([Buffer.from(k + '\0', 'utf-8'), Buffer.from(d, 'utf-8')])
-  const tb = Buffer.from('tEXt', 'ascii'), l = Buffer.alloc(4)
-  l.writeUInt32BE(data.length); const cd = Buffer.concat([tb, data]); const c = Buffer.alloc(4)
-  c.writeUInt32BE(crc32(cd))
-  return Buffer.concat([l, tb, data, c])
+  const l = Buffer.alloc(4); l.writeUInt32BE(data.length)
+  const tb = Buffer.from('tEXt', 'ascii'), cd = Buffer.concat([tb, data]), c = Buffer.alloc(4)
+  c.writeUInt32BE(crc32(cd)); return Buffer.concat([l, tb, data, c])
 }
 
-const w = 256, h = 256
-const raw = Buffer.alloc((w * 4 + 1) * h)
+const w = 256, h = 256, raw = Buffer.alloc((w * 4 + 1) * h)
 for (let y = 0; y < h; y++) {
   const rs = y * (w * 4 + 1); raw[rs] = 0
   for (let x = 0; x < w; x++) {
-    const p = rs + 1 + x * 4, b = x < 4 || x >= w - 4 || y < 4 || y >= h - 4
+    const p = rs + 1 + x * 4, bj = x < 4 || x >= w - 4 || y < 4 || y >= h - 4
     const d = Math.sqrt((x - 128) ** 2 + (y - 128) ** 2)
-    if (b) { raw[p] = 201; raw[p + 1] = 168; raw[p + 2] = 76; raw[p + 3] = 255 }
+    if (bj) { raw[p] = 201; raw[p + 1] = 168; raw[p + 2] = 76; raw[p + 3] = 255 }
     else if (d < 28) { raw[p] = 201; raw[p + 1] = 168; raw[p + 2] = 76; raw[p + 3] = 200 }
     else { raw[p] = 13; raw[p + 1] = 10; raw[p + 2] = 8; raw[p + 3] = 255 }
   }
@@ -116,10 +108,7 @@ const id = zlib.deflateSync(raw), ih = Buffer.alloc(13)
 ih.writeUInt32BE(w, 0); ih.writeUInt32BE(h, 4); ih[8] = 8; ih[9] = 6
 const sg = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])
 let png = Buffer.concat([sg, mc('IHDR', ih), mc('IDAT', id), mc('IEND', Buffer.alloc(0))])
-function ins(p, c) {
-  let i = 8; while (i < p.length - 4) { if (p.slice(i + 4, i + 8).toString() === 'IEND') break; i += 12 + p.readUInt32BE(i) }
-  return Buffer.concat([p.slice(0, i), c, p.slice(i)])
-}
+function ins(p, c) { let i = 8; while (i < p.length - 4) { if (p.slice(i + 4, i + 8).toString() === 'IEND') break; i += 12 + p.readUInt32BE(i) }; return Buffer.concat([p.slice(0, i), c, p.slice(i)]) }
 const b64 = Buffer.from(jsonStr, 'utf-8').toString('base64')
 png = ins(png, mt('chara', b64)); png = ins(png, mt('ccv3', b64))
 
