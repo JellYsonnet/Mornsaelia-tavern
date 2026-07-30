@@ -1,172 +1,143 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
-<script src="https://testingcf.jsdelivr.net/gh/n0vi028/JS-Slash-Runner/lib/tailwindcss.min.js"></script>
-<script src="https://testingcf.jsdelivr.net/npm/jquery"></script>
-<script src="https://testingcf.jsdelivr.net/gh/n0vi028/JS-Slash-Runner/src/iframe/adjust_iframe_height.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>莫恩瑟利亚</title>
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css">
 <style>
-*,*::before,*::after{box-sizing:border-box}
-html,body{margin:0!important;padding:0;overflow:hidden!important;max-width:100%!important;background:transparent}
-:root{
-  --primary:#c9a84c;
-  --secondary:#2c1810;
-  --accent:#8b0000;
-  --bg:#1a0f0a;
-  --panel:#2a1a10;
-  --text:#e8dcc8;
-  --dim:#8a7a6a;
-  --border:#4a3a2a;
-}
-body{font-family:'Segoe UI','Noto Sans SC','Microsoft YaHei',sans-serif;color:var(--text)}
-.panel{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:10px;margin-bottom:6px}
-.panel h3{font-size:11px;color:var(--primary);margin:0 0 6px;padding-bottom:3px;border-bottom:1px solid var(--border)}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#c9a84c;--secondary:#2c1810;--accent:#8b0000;--bg:#1a0f0a;--panel:#2a1a10;--text:#e8dcc8;--dim:#8a7a6a;--border:#4a3a2a}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Segoe UI','Noto Sans SC','Microsoft YaHei',sans-serif}
+.container{display:flex;flex-direction:column;height:100vh;background:linear-gradient(135deg,var(--bg) 0%,#0d0805 100%)}
+.hud{background:linear-gradient(180deg,var(--secondary),var(--bg));border-bottom:1px solid var(--border);padding:8px 16px;flex-shrink:0}
+.hud-row{display:flex;gap:16px;flex-wrap:wrap;font-size:13px}
+.hud-item i{color:var(--primary);margin-right:4px}
+.exp-bar{height:14px;background:#3a2a1a;border-radius:7px;margin-top:6px;position:relative;overflow:hidden}
+.exp-fill{height:100%;background:linear-gradient(90deg,var(--primary),#e8c84c);border-radius:7px;transition:width .5s}
+.exp-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:9px;color:#fff;text-shadow:0 1px 2px #000}
+.main{display:flex;flex:1;overflow:hidden;gap:1px;background:var(--border)}
+.left,.right{width:220px;flex-shrink:0;display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.center{flex:1;display:flex;flex-direction:column;gap:1px;background:var(--border);min-width:0}
+.panel{background:var(--panel);padding:12px;overflow-y:auto}
+.panel h3{font-size:11px;color:var(--primary);margin:0 0 8px;border-bottom:1px solid var(--border);padding-bottom:4px}
 .panel h3 i{margin-right:4px}
-.hud{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;margin-bottom:6px}
-.hud-item{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:3px 8px}
-.hud-item i{color:var(--primary);margin-right:3px}
-.main{display:flex;gap:4px}
-.left,.right{width:140px;flex-shrink:0}
-.center{flex:1;min-width:0}
-.stat-row,.equip-row{display:flex;justify-content:space-between;font-size:11px;padding:1px 0}
+.stat-row,.equip-row{display:flex;justify-content:space-between;font-size:12px;padding:2px 0}
 .stat-label,.equip-slot{color:var(--dim)}
 .stat-value{color:var(--text);font-weight:bold}
 .equip-item{color:var(--primary)}
-.narrative{max-height:200px;overflow-y:auto;font-size:12px;line-height:1.6}
-.narrative p{margin:0 0 4px}
-.narrative .s{color:var(--primary);font-style:italic}
-.opt-btn{display:block;width:100%;text-align:left;background:rgba(201,168,76,0.08);border:1px solid var(--border);color:var(--text);padding:4px 8px;margin:2px 0;border-radius:3px;cursor:pointer;font-size:11px;transition:all .15s}
+.narrative{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.narr-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:4px}
+.loc-tag{font-size:10px;color:var(--primary);background:rgba(201,168,76,0.1);padding:2px 8px;border-radius:3px}
+.narr-content{flex:1;overflow-y:auto}
+.narr-line{font-size:13px;line-height:1.7;margin-bottom:6px}
+.narr-line.system{color:var(--primary);font-style:italic}
+.options{flex-shrink:0;max-height:180px}
+.opt-btn{display:block;width:100%;text-align:left;background:rgba(201,168,76,0.08);border:1px solid var(--border);color:var(--text);padding:5px 10px;margin:2px 0;border-radius:3px;cursor:pointer;font-size:12px;transition:all .15s}
 .opt-btn:hover{background:rgba(201,168,76,0.2);border-color:var(--primary)}
 .opt-num{display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;background:var(--primary);color:var(--bg);border-radius:50%;font-size:9px;font-weight:bold;margin-right:6px}
-.item-row{display:flex;align-items:center;gap:4px;font-size:11px;padding:2px 0;cursor:pointer;border-radius:2px}
+.opt-req{color:var(--dim);font-size:10px;margin-left:4px}
+.item-row{display:flex;align-items:center;gap:6px;font-size:12px;padding:2px 0;cursor:pointer;border-radius:2px}
 .item-row:hover{background:rgba(201,168,76,0.1)}
 .empty{color:var(--dim);font-size:11px;font-style:italic}
-.exp-bar{height:4px;background:var(--bg);border-radius:2px;overflow:hidden;margin:4px 0}
-.exp-fill{height:100%;background:linear-gradient(90deg,var(--primary),#e8c84c);border-radius:2px;transition:width .3s}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.quest-status{font-size:9px;padding:1px 5px;border-radius:2px}
+.quest-status.active{background:rgba(201,168,76,0.2);color:#e8c84c}
+.quest-status.done{background:rgba(76,200,76,0.2);color:#4c8}
+.footer{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--secondary);border-top:1px solid var(--border);flex-shrink:0}
+.chat-input{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:6px;font-size:13px;outline:none}
+.chat-input:focus{border-color:var(--primary)}
+.send-btn{background:var(--primary);border:none;color:var(--bg);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:14px}
+.send-btn:hover{transform:scale(1.1)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--primary)}
+@media(max-width:768px){.left,.right{display:none}}
 </style>
 </head>
 <body>
-<div id="app">
-  <div class="hud" id="hud">
-    <span class="hud-item"><i class="fas fa-heart"></i> <span id="hp">100</span>/<span id="hpm">100</span></span>
-    <span class="hud-item"><i class="fas fa-star"></i> <span id="mp">50</span>/<span id="mpm">50</span></span>
-    <span class="hud-item"><i class="fas fa-level-up-alt"></i> Lv.<span id="lv">1</span></span>
-    <span class="hud-item"><i class="fas fa-map-pin"></i> <span id="loc">起始之森</span></span>
+<div class="container">
+  <div class="hud">
+    <div class="hud-row">
+      <span class="hud-item"><i class="fas fa-heart"></i> <span id="hp">100</span>/<span id="hpm">100</span></span>
+      <span class="hud-item"><i class="fas fa-star"></i> <span id="mp">50</span>/<span id="mpm">50</span></span>
+      <span class="hud-item"><i class="fas fa-level-up-alt"></i> Lv.<span id="lv">1</span></span>
+      <span class="hud-item"><i class="fas fa-map-pin"></i> <span id="loc">起始之森</span></span>
+    </div>
+    <div class="exp-bar"><div class="exp-fill" id="expb" style="width:0%"></div><span class="exp-text">EXP <span id="exp">0</span>/<span id="expn">100</span></span></div>
   </div>
-
   <div class="main">
     <div class="left">
-      <div class="panel"><h3><i class="fas fa-crown"></i> 属性</h3>
-        <div id="stats"></div>
-      </div>
-      <div class="panel"><h3><i class="fas fa-shield-alt"></i> 装备</h3>
-        <div id="equip"></div>
-      </div>
+      <div class="panel"><h3><i class="fas fa-crown"></i> 属性</h3><div id="stats"></div></div>
+      <div class="panel"><h3><i class="fas fa-shield-alt"></i> 装备</h3><div id="equip"></div></div>
     </div>
-
     <div class="center">
-      <div class="panel"><h3><i class="fas fa-book"></i> 叙事</h3>
-        <div class="narrative" id="narrative">
-          <p>🌿 欢迎来到莫恩瑟利亚。</p>
-          <p>你站在起始之森的入口，晨光透过树冠洒下斑驳光影。</p>
+      <div class="panel narrative">
+        <div class="narr-header"><span class="loc-tag" id="loctag">起始之森</span></div>
+        <div class="narr-content" id="narr">
+          <p class="narr-line">🌿 欢迎来到莫恩瑟利亚。</p>
+          <p class="narr-line">你站在起始之森的入口，晨光透过树冠洒下斑驳光影。</p>
         </div>
       </div>
-      <div class="panel" id="options-box" style="display:none"><h3><i class="fas fa-list"></i> 行动</h3>
-        <div id="options"></div>
+      <div class="panel options" id="optbox" style="display:none">
+        <h3><i class="fas fa-list"></i> 行动</h3><div id="opts"></div>
       </div>
     </div>
-
     <div class="right">
-      <div class="panel"><h3><i class="fas fa-shopping-bag"></i> 背包</h3>
-        <div id="inv"><span class="empty">空空如也</span></div>
-      </div>
-      <div class="panel"><h3><i class="fas fa-tasks"></i> 任务</h3>
-        <div id="quest"><span class="empty">无活跃任务</span></div>
-      </div>
+      <div class="panel"><h3><i class="fas fa-shopping-bag"></i> 背包</h3><div id="inv"><div class="empty">空空如也</div></div></div>
+      <div class="panel"><h3><i class="fas fa-tasks"></i> 任务</h3><div id="quest"><div class="empty">无活跃任务</div></div></div>
     </div>
   </div>
-
-  <div class="exp-bar"><div class="exp-fill" id="exp-bar" style="width:0%"></div></div>
+  <div class="footer">
+    <input type="text" id="input" class="chat-input" placeholder="输入你的行动…">
+    <button class="send-btn" id="send"><i class="fas fa-paper-plane"></i></button>
+  </div>
 </div>
-
 <script>
-// 解析 AI 回复中的标签
-function parseText(text) {
-  // <status>
-  const sm = text.match(/<status>([\s\S]*?)<\/status>/)
-  if (sm) {
-    const b = sm[1]
-    const hp = b.match(/HP\s*:\s*(\d+)\/(\d+)/i)
-    if (hp) { document.getElementById('hp').textContent = hp[1]; document.getElementById('hpm').textContent = hp[2] }
-    const mp = b.match(/MP\s*:\s*(\d+)\/(\d+)/i)
-    if (mp) { document.getElementById('mp').textContent = mp[1]; document.getElementById('mpm').textContent = mp[2] }
-    const lv = b.match(/LV\s*:\s*(\d+)/i)
-    if (lv) document.getElementById('lv').textContent = lv[1]
-    const loc = b.match(/位置\s*:\s*(.+)/)
-    if (loc) document.getElementById('loc').textContent = loc[1].trim()
+function init(){
+  // 状态
+  var S={hp:100,hpm:100,mp:50,mpm:50,lv:1,exp:0,expn:100}
+  function u(){
+    document.getElementById('hp').textContent=S.hp
+    document.getElementById('hpm').textContent=S.hpm
+    document.getElementById('mp').textContent=S.mp
+    document.getElementById('mpm').textContent=S.mpm
+    document.getElementById('lv').textContent=S.lv
+    document.getElementById('exp').textContent=S.exp
+    document.getElementById('expn').textContent=S.expn
+    document.getElementById('expb').style.width=Math.min(100,S.exp/S.expn*100)+'%'
   }
-
-  // <options>
-  const om = text.match(/<options>([\s\S]*?)<\/options>/)
-  const obox = document.getElementById('options-box')
-  const odiv = document.getElementById('options')
-  if (om) {
-    obox.style.display = 'block'
-    odiv.innerHTML = ''
-    om[1].split('\n').forEach(line => {
-      const m = line.match(/^\d+\.\s*(.*?)(?:\[([^\]]+)\])?\s*$/)
-      if (m) {
-        const btn = document.createElement('button')
-        btn.className = 'opt-btn'
-        btn.innerHTML = `<span class="opt-num">${odiv.children.length + 1}</span>${m[1].trim()}${m[2] ? `<span style="color:var(--dim);font-size:10px;margin-left:4px">[${m[2]}]</span>` : ''}`
-        btn.onclick = () => { sendMsg(m[1].trim()) }
-        odiv.appendChild(btn)
-      }
-    })
-  } else {
-    obox.style.display = 'none'
+  function p(t){
+    var sm=t.match(/<status>([\\s\\S]*?)<\\/status>/)
+    if(sm){var b=sm[1]
+      var h=b.match(/HP\\s*:\\s*(\\d+)\\/(\\d+)/i);if(h){S.hp=+h[1];S.hpm=+h[2]}
+      var m=b.match(/MP\\s*:\\s*(\\d+)\\/(\\d+)/i);if(m){S.mp=+m[1];S.mpm=+m[2]}
+      var l=b.match(/LV\\s*:\\s*(\\d+)/i);if(l)S.lv=+l[1]
+      var e=b.match(/EXP\\s*:\\s*(\\d+)\\/(\\d+)/i);if(e){S.exp=+e[1];S.expn=+e[2]}
+      var L=b.match(/\\u4f4d\\u7f6e\\s*:\\s*(.+)/);if(L){document.getElementById('loc').textContent=L[1].trim();document.getElementById('loctag').textContent=L[1].trim()}
+      u()}
+    var om=t.match(/<options>([\\s\\S]*?)<\\/options>/)
+    var ob=document.getElementById('optbox'),od=document.getElementById('opts')
+    if(om){ob.style.display='block';od.innerHTML=''
+      om[1].split('\\n').forEach(function(l){var m=l.match(/^\\d+\\.\\s*(.*?)(?:\\[([^\\]]+)\\])?\\s*$/);if(m){var b=document.createElement('button');b.className='opt-btn';b.innerHTML='<span class="opt-num">'+(od.children.length+1)+'</span>'+m[1].trim();if(m[2])b.innerHTML+='<span class="opt-req">['+m[2]+']</span>';b.onclick=function(){send(m[1].trim())};od.appendChild(b)}})
+    }else ob.style.display='none'
+    var c=t.replace(/<[^>]+>[\\s\\S]*?<\\/[^>]+>/g,'').replace(/\\$\\$[\\s\\S]*?\\$\\$/g,'').trim()
+    if(c){var nc=document.getElementById('narr'),p=document.createElement('p');p.className='narr-line';p.textContent=c;nc.appendChild(p);nc.scrollTop=nc.scrollHeight}
   }
+  function send(t){
+    if(!t)return
+    var nc=document.getElementById('narr'),p=document.createElement('p');p.className='narr-line system';p.textContent='> '+t;nc.appendChild(p);nc.scrollTop=nc.scrollHeight
+    var ta=document.querySelector('#send_textarea,textarea.message,.mes_textarea')
+    if(ta){ta.value=t;ta.dispatchEvent(new Event('input',{bubbles:true}));var sb=document.querySelector('#send_but,.send_but');if(sb)sb.click()}}
+  var lt=''
+  setInterval(function(){
+    var mes=document.querySelectorAll('.mes')
+    if(mes.length){var t=mes[mes.length-1].textContent||'';if(t&&t!==lt&&t.length>10){lt=t;p(t)}}
+  },1000)
+  document.getElementById('input').addEventListener('keydown',function(e){if(e.key==='Enter'){var inp=document.getElementById('input');send(inp.value);inp.value=''}})
+  document.getElementById('send').addEventListener('click',function(){var inp=document.getElementById('input');send(inp.value);inp.value=''})
+  u()
 }
-
-// 发送消息到酒馆
-function sendMsg(text) {
-  const ta = document.querySelector('#send_textarea, textarea.message, .mes_textarea, textarea')
-  if (ta) {
-    ta.value = text
-    ta.dispatchEvent(new Event('input', { bubbles: true }))
-    const send = document.querySelector('#send_but, .send_but, button[title="发送"]')
-    if (send) send.click()
-  }
-}
-
-// 监听消息
-let lastText = ''
-function checkMessages() {
-  const mes = document.querySelectorAll('.mes')
-  if (mes.length && mes[mes.length - 1]) {
-    const t = mes[mes.length - 1].textContent || ''
-    if (t !== lastText && t.length > 10) {
-      lastText = t
-      parseText(t)
-    }
-  }
-}
-setInterval(checkMessages, 1000)
-
-// 初始解析
-setTimeout(() => {
-  const mes = document.querySelectorAll('.mes')
-  if (mes.length) parseText(mes[mes.length - 1].textContent || '')
-}, 2000)
-
-// 通知父窗口就绪
-if (window.parent !== window) {
-  window.parent.postMessage({ type: 'mornsaelia_ready' }, '*')
-}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init()
 </script>
 </body>
 </html>
