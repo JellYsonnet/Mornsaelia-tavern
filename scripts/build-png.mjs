@@ -8,7 +8,7 @@ const html = fs.readFileSync(root + '/src/莫恩瑟利亚/前端/index.html', 'u
 fs.writeFileSync(root + '/dist/莫恩瑟利亚/前端/index.html', html)
 
 // 艾瑟洛斯方式：alternate_greetings 代码块 + $('body').load(CDN)
-const url = 'https://cdn.jsdelivr.net/gh/JellYsonnet/Mornsaelia-tavern@main/dist/莫恩瑟利亚/前端/index.html'
+const url = 'https://cdn.jsdelivr.net/gh/JellYsonnet/Mornsaelia-tavern@main/dist/' + encodeURIComponent('莫恩瑟利亚/前端/index.html')
 const alt = '```\n<body>\n<script>\nvar t=new Date().getTime();\n$(\'body\').load(\'' + url + '?v=\'+t)\n</script>\n</body>\n```'
 
 const firstMsg = ['## 【莫恩瑟利亚】', '___', '> 下拉招呼→加载前端面板。', '___', '**开始冒险→**'].join('\n')
