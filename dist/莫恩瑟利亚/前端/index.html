@@ -1,5 +1,148 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>莫恩瑟利亚</title><script type="module">const e=Vue,l={key:0,id:'sp'},t={id:'pn',class:'active'},a={class:'left'},n={class:'bx'},s={class:'pl'},c={class:'sr'},o={class:'v'},r={class:'bar'},i={class:'sr'},m={class:'v'},d={class:'bar'},u={class:'sr'},v={class:'v'},p={class:'bar'},E={class:'bx'},N={class:'sg'},V={class:'k'},y={class:'v'},g={class:'bx',style:{flex:'1'}},f={class:'ln'},k={class:'ld'},x={class:'center'},S={class:'hd'},h={class:'t'},D={class:'tm'},B={key:0,class:'h'},b={class:'ax'},C=['onClick'],w={class:'right'},F={class:'bx'},H={class:'es'},L={class:'es'},M={class:'es'},P={class:'bx',style:{flex:'1'}},q={class:'iv'},_=(0,e.defineComponent)({__name:'界面',setup(I){const J=[{id:'起始之村',name:'起始之村',desc:'宁静的小村庄，麦田环绕。',exits:[{t:'迷雾森林',m:'北面小路'},{t:'风铃镇',m:'东面商道'}],safe:!0},{id:'迷雾森林',name:'迷雾森林',desc:'浓雾终年的古老森林。',exits:[{t:'起始之村',m:'南面回村'},{t:'矿洞遗址',m:'西面洞口'},{t:'风铃镇',m:'东面捷径'}]},{id:'风铃镇',name:'风铃镇',desc:'热闹的贸易小镇。',exits:[{t:'起始之村',m:'西面大道'},{t:'迷雾森林',m:'西面森林'},{t:'王都',m:'北面大道'},{t:'古城废墟',m:'东面旧道'}],safe:!0},{id:'矿洞遗址',name:'矿洞遗址',desc:'废弃多年的矿洞。',exits:[{t:'迷雾森林',m:'洞口外'}]},{id:'王都',name:'王都',desc:'王国中心，城堡高耸。',exits:[{t:'风铃镇',m:'南面大道'}],safe:!0},{id:'古城废墟',name:'古城废墟',desc:'古文明遗迹。',exits:[{t:'风铃镇',m:'西面旧道'},{t:'龙脊山',m:'北面山路'}]},{id:'龙脊山',name:'龙脊山',desc:'形如龙脊的山脉。',exits:[{t:'古城废墟',m:'下山'}]}],O=e=>J.find(l=>l.id===e),R=(0,e.ref)(!1),T=(0,e.ref)([]),A=(0,e.ref)([]),G=(0,e.ref)(null),U=(0,e.ref)({name:'旅人',level:1,exp:0,expNext:100,hp:100,maxHp:100,mp:50,maxMp:50,gold:0,stats:{str:10,dex:10,con:10,int:10,wis:10,cha:10}}),X=(0,e.ref)('起始之村'),j=(0,e.ref)([]),K=(0,e.ref)({weapon:null,armor:null,accessory:null}),Q=(0,e.ref)({d:1,h:8}),W=(0,e.ref)(['起始之村']),Y=(0,e.computed)(()=>O(X.value)),Z=((0,e.computed)(()=>X.value),(0,e.computed)(()=>U.value.hp/U.value.maxHp*100)),ee=(0,e.computed)(()=>U.value.mp/U.value.maxMp*100),le=(0,e.computed)(()=>U.value.exp/U.value.expNext*100);function te(e){return String(e).padStart(2,'0')}function ae(l,t='n'){T.value.push({text:l,type:t,time:{...Q.value}}),(0,e.nextTick)(()=>{G.value&&(G.value.scrollTop=G.value.scrollHeight)})}function ne(){const e=Y.value;e&&(A.value=e.exits.map(e=>e.t+' ('+e.m+')'))}function se(){R.value=!0;const e=Y.value;e&&ae('踏入 '+e.name+'。'+e.desc,'s'),ne()}function ce(){try{const e=localStorage.getItem('mns_save');if(!e)return void se();const l=JSON.parse(e);U.value=l.player,X.value=l.loc,j.value=l.inv||[],K.value=l.eq||{weapon:null,armor:null,accessory:null},Q.value=l.time,W.value=l.visited,T.value=l.log||[],R.value=!0,ne(),ae('📂 已读取存档','s')}catch{se()}}function oe(){localStorage.setItem('mns_save',JSON.stringify({player:U.value,loc:X.value,inv:j.value,eq:K.value,time:Q.value,visited:W.value,log:T.value})),ae('💾 已保存','s')}function re(){window.close()}function ie(e){X.value=e,W.value.includes(e)||W.value.push(e),Q.value.h+=2,Q.value.h>=24&&(Q.value.h-=24,Q.value.d++);const l=O(e);l&&ae('—— 前往 '+l.name+' ——\n'+l.desc,'s'),ne()}return(I,O)=>((0,e.openBlock)(),(0,e.createElementBlock)(e.Fragment,null,[(0,e.createCommentVNode)(' 启动画面 '),R.value?((0,e.openBlock)(),(0,e.createElementBlock)(e.Fragment,{key:1},[(0,e.createCommentVNode)(' 主面板 '),(0,e.createElementVNode)('div',t,[(0,e.createCommentVNode)(' 左栏 '),(0,e.createElementVNode)('div',a,[(0,e.createElementVNode)('div',n,[O[5]||(O[5]=(0,e.createElementVNode)('h4',null,'✦ 角色',-1)),(0,e.createElementVNode)('div',s,'Lv.'+(0,e.toDisplayString)(U.value.level)+' · '+(0,e.toDisplayString)(U.value.name),1),(0,e.createElementVNode)('div',c,[O[2]||(O[2]=(0,e.createElementVNode)('span',null,'HP',-1)),(0,e.createElementVNode)('span',o,(0,e.toDisplayString)(U.value.hp)+'/'+(0,e.toDisplayString)(U.value.maxHp),1)]),(0,e.createElementVNode)('div',r,[(0,e.createElementVNode)('div',{class:'fl hp',style:(0,e.normalizeStyle)({width:Z.value+'%'})},null,4)]),(0,e.createElementVNode)('div',i,[O[3]||(O[3]=(0,e.createElementVNode)('span',null,'MP',-1)),(0,e.createElementVNode)('span',m,(0,e.toDisplayString)(U.value.mp)+'/'+(0,e.toDisplayString)(U.value.maxMp),1)]),(0,e.createElementVNode)('div',d,[(0,e.createElementVNode)('div',{class:'fl mp',style:(0,e.normalizeStyle)({width:ee.value+'%'})},null,4)]),(0,e.createElementVNode)('div',u,[O[4]||(O[4]=(0,e.createElementVNode)('span',null,'EXP',-1)),(0,e.createElementVNode)('span',v,(0,e.toDisplayString)(U.value.exp)+'/'+(0,e.toDisplayString)(U.value.expNext),1)]),(0,e.createElementVNode)('div',p,[(0,e.createElementVNode)('div',{class:'fl exp',style:(0,e.normalizeStyle)({width:le.value+'%'})},null,4)])]),(0,e.createElementVNode)('div',E,[O[6]||(O[6]=(0,e.createElementVNode)('h4',null,'✦ 属性',-1)),(0,e.createElementVNode)('div',N,[((0,e.openBlock)(!0),(0,e.createElementBlock)(e.Fragment,null,(0,e.renderList)(U.value.stats,(l,t)=>((0,e.openBlock)(),(0,e.createElementBlock)('div',{key:t,class:'sc'},[(0,e.createElementVNode)('span',V,(0,e.toDisplayString)(t.toUpperCase()),1),(0,e.createElementVNode)('span',y,(0,e.toDisplayString)(l),1)]))),128))])]),(0,e.createElementVNode)('div',g,[O[7]||(O[7]=(0,e.createElementVNode)('h4',null,'✦ 位置',-1)),(0,e.createElementVNode)('div',f,(0,e.toDisplayString)(X.value?.name),1),(0,e.createElementVNode)('div',k,(0,e.toDisplayString)(X.value?.desc),1)])]),(0,e.createCommentVNode)(' 中栏 '),(0,e.createElementVNode)('div',x,[(0,e.createElementVNode)('div',S,[(0,e.createElementVNode)('span',h,(0,e.toDisplayString)(X.value?.name),1),(0,e.createElementVNode)('span',D,'第'+(0,e.toDisplayString)(Q.value.day)+'日 '+(0,e.toDisplayString)(te(Q.value.hour))+':00',1)]),(0,e.createElementVNode)('div',{class:'lg',ref_key:'logRef',ref:G},[((0,e.openBlock)(!0),(0,e.createElementBlock)(e.Fragment,null,(0,e.renderList)(T.value,(l,t)=>((0,e.openBlock)(),(0,e.createElementBlock)('div',{key:t,class:(0,e.normalizeClass)(['ms','s'===l.type?'s':''])},['p'!==l.type?((0,e.openBlock)(),(0,e.createElementBlock)('div',B,'第'+(0,e.toDisplayString)(l.time.d)+'日 '+(0,e.toDisplayString)(te(l.time.h))+':00',1)):(0,e.createCommentVNode)('v-if',!0),(0,e.createElementVNode)('div',null,(0,e.toDisplayString)(l.text),1)],2))),128))],512),(0,e.createElementVNode)('div',b,[((0,e.openBlock)(!0),(0,e.createElementBlock)(e.Fragment,null,(0,e.renderList)(A.value,(l,t)=>((0,e.openBlock)(),(0,e.createElementBlock)('button',{key:t,class:'ab',onClick:e=>function(e){for(const l of J)if(e.includes(l.id)||e.includes(l.name))return void ie(l.id);ae('▶ '+e,'p'),A.value=[]}(l)},' ➡ '+(0,e.toDisplayString)(l),9,C))),128))])]),(0,e.createCommentVNode)(' 右栏 '),(0,e.createElementVNode)('div',w,[(0,e.createElementVNode)('div',F,[O[11]||(O[11]=(0,e.createElementVNode)('h4',null,'✦ 装备',-1)),(0,e.createElementVNode)('div',H,[O[8]||(O[8]=(0,e.createElementVNode)('span',{class:'l'},'武器',-1)),(0,e.createElementVNode)('span',{class:(0,e.normalizeClass)(K.value.weapon?'i':'e')},(0,e.toDisplayString)(K.value.weapon||'空'),3)]),(0,e.createElementVNode)('div',L,[O[9]||(O[9]=(0,e.createElementVNode)('span',{class:'l'},'防具',-1)),(0,e.createElementVNode)('span',{class:(0,e.normalizeClass)(K.value.armor?'i':'e')},(0,e.toDisplayString)(K.value.armor||'空'),3)]),(0,e.createElementVNode)('div',M,[O[10]||(O[10]=(0,e.createElementVNode)('span',{class:'l'},'饰品',-1)),(0,e.createElementVNode)('span',{class:(0,e.normalizeClass)(K.value.accessory?'i':'e')},(0,e.toDisplayString)(K.value.accessory||'空'),3)])]),(0,e.createElementVNode)('div',P,[O[12]||(O[12]=(0,e.createElementVNode)('h4',null,'✦ 背包',-1)),(0,e.createElementVNode)('div',q,[((0,e.openBlock)(),(0,e.createElementBlock)(e.Fragment,null,(0,e.renderList)(12,l=>(0,e.createElementVNode)('div',{key:l,class:(0,e.normalizeClass)(['ic',{has:j.value.length>=l}])},(0,e.toDisplayString)(j.value[l-1]?j.value[l-1].icon||'📦':''),3)),64))])]),(0,e.createElementVNode)('button',{class:'bn',onClick:oe},'💾 存档'),(0,e.createElementVNode)('button',{class:'bn',onClick:ce},'📂 读档'),(0,e.createElementVNode)('button',{class:'bn',onClick:re,style:{'border-color':'#8b0000',color:'#e57373'}},'✕ 关闭')])])],2112)):((0,e.openBlock)(),(0,e.createElementBlock)('div',l,[O[0]||(O[0]=(0,e.createElementVNode)('h1',null,'莫恩瑟利亚',-1)),O[1]||(O[1]=(0,e.createElementVNode)('p',null,'— 开放世界 RPG —',-1)),(0,e.createElementVNode)('div',{class:'sp-btns'},[(0,e.createElementVNode)('button',{onClick:se},'新的旅程'),(0,e.createElementVNode)('button',{class:'s',onClick:ce},'继续冒险')])]))],2112))}});$(()=>{const l=(0,e.createApp)(_);l.mount('#app'),$(window).on('pagehide',()=>l.unmount())});
-//# sourceMappingURL=index.js.map</script><style>*{margin:0;padding:0;box-sizing:border-box}body,html{height:100%;width:100%;overflow:hidden}body{background:#0d0a08;color:#f0e6d2;font-family:'Georgia','Noto Serif SC',serif}#sp{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;background:radial-gradient(ellipse at center,#1a1410,#0d0a08);z-index:2000}#sp h1{font-size:3em;color:#c9a84c;margin-bottom:8px}#sp p{color:#a09080;font-style:italic;margin-bottom:30px}.sp-btns button{padding:12px 32px;font-size:1em;border:2px solid #8c7853;background:transparent;color:#c9a84c;border-radius:4px;cursor:pointer;margin:0 8px}.sp-btns button:hover{background:#c9a84c;color:#0d0a08}.sp-btns button.s{border-color:#5a4e3c;color:#a09080}#pn{display:flex;width:100%;height:100vh}.left{width:240px;min-width:240px;background:#1a1410;border-right:1px solid #241e18;padding:12px;display:flex;flex-direction:column;gap:8px;overflow-y:auto}.bx{background:#241e18;border:1px solid #5a4e3c;border-radius:5px;padding:10px}.bx h4{font-size:.7em;color:#c9a84c;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}.pl{font-size:.85em;color:#c9a84c;margin-bottom:4px}.sr{display:flex;justify-content:space-between;font-size:.75em;margin-bottom:3px;color:#a09080}.sr .v{color:#f0e6d2}.bar{height:6px;background:#0d0a08;border-radius:3px;overflow:hidden;border:1px solid #5a4e3c;margin-bottom:4px}.fl{height:100%;transition:width .5s}.fl.hp{background:#e57373}.fl.mp{background:#64b5f6}.fl.exp{background:#ffd54f}.sg{display:grid;grid-template-columns:1fr 1fr;gap:2px}.sc{font-size:.7em;background:#0d0a08;padding:2px 5px;border-radius:2px;display:flex;justify-content:space-between}.sc .k{color:#a09080}.sc .v{color:#c9a84c;font-weight:bold}.ln{font-size:.8em;color:#c9a84c}.ld{font-size:.68em;color:#a09080;font-style:italic}.center{flex:1;display:flex;flex-direction:column;background:#0d0a08;min-width:0}.hd{padding:8px 14px;border-bottom:1px solid #241e18;display:flex;justify-content:space-between;font-size:.8em;flex-shrink:0}.hd .t{color:#c9a84c}.hd .tm{color:#605548}.lg{flex:1;overflow-y:auto;padding:10px 14px;display:flex;flex-direction:column;gap:6px}.ms{padding:7px 10px;background:#241e18;border:1px solid #5a4e3c;border-radius:4px;font-size:.8em;line-height:1.5}.ms.s{border-left:3px solid #c9a84c;font-style:italic;color:#a09080;font-size:.74em}.ms .h{font-size:.65em;color:#605548;margin-bottom:2px}.ax{padding:8px 14px;border-top:1px solid #241e18;display:flex;flex-direction:column;gap:4px;max-height:160px;overflow-y:auto;flex-shrink:0}.ab{padding:6px 10px;background:#241e18;border:1px solid #5a4e3c;color:#f0e6d2;font-size:.76em;border-radius:3px;cursor:pointer;text-align:left}.ab:hover{background:#8c7853;color:#0d0a08}.right{width:220px;min-width:220px;background:#1a1410;border-left:1px solid #241e18;padding:12px;display:flex;flex-direction:column;gap:8px;overflow-y:auto}.es{display:flex;gap:6px;padding:4px 7px;background:#0d0a08;border:1px solid #5a4e3c;border-radius:3px;font-size:.7em}.es .l{color:#605548;min-width:35px}.es .i{color:#f0e6d2}.es .e{color:#605548;font-style:italic}.iv{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}.ic{aspect-ratio:1;background:#0d0a08;border:1px solid #5a4e3c;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:.6em}.ic.has{border-color:#8c7853;color:#f0e6d2}.bn{padding:6px;background:#241e18;border:1px solid #5a4e3c;color:#a09080;font-size:.72em;border-radius:3px;cursor:pointer;text-align:center}.bn:hover{background:#8c7853;color:#0d0a08}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#0d0a08}::-webkit-scrollbar-thumb{background:#5a4e3c;border-radius:2px}
-
-
-/*# sourceMappingURL=main.css.map*/</style></head><body><div id="app"></div></body></html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>莫恩瑟利亚</title>
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#c9a84c;--secondary:#2c1810;--accent:#8b0000;--bg:#1a0f0a;--panel:#2a1a10;--text:#e8dcc8;--dim:#8a7a6a;--border:#4a3a2a}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Segoe UI','Noto Sans SC','Microsoft YaHei',sans-serif}
+.container{display:flex;flex-direction:column;height:100vh;background:linear-gradient(135deg,var(--bg) 0%,#0d0805 100%)}
+.hud{background:linear-gradient(180deg,var(--secondary),var(--bg));border-bottom:1px solid var(--border);padding:8px 16px;flex-shrink:0}
+.hud-row{display:flex;gap:16px;flex-wrap:wrap;font-size:13px}
+.hud-item i{color:var(--primary);margin-right:4px}
+.exp-bar{height:14px;background:#3a2a1a;border-radius:7px;margin-top:6px;position:relative;overflow:hidden}
+.exp-fill{height:100%;background:linear-gradient(90deg,var(--primary),#e8c84c);border-radius:7px;transition:width .5s}
+.exp-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:9px;color:#fff;text-shadow:0 1px 2px #000}
+.main{display:flex;flex:1;overflow:hidden;gap:1px;background:var(--border)}
+.left,.right{width:220px;flex-shrink:0;display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.center{flex:1;display:flex;flex-direction:column;gap:1px;background:var(--border);min-width:0}
+.panel{background:var(--panel);padding:12px;overflow-y:auto}
+.panel h3{font-size:11px;color:var(--primary);margin:0 0 8px;border-bottom:1px solid var(--border);padding-bottom:4px}
+.panel h3 i{margin-right:4px}
+.stat-row,.equip-row{display:flex;justify-content:space-between;font-size:12px;padding:2px 0}
+.stat-label,.equip-slot{color:var(--dim)}
+.stat-value{color:var(--text);font-weight:bold}
+.equip-item{color:var(--primary)}
+.narrative{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.narr-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:4px}
+.loc-tag{font-size:10px;color:var(--primary);background:rgba(201,168,76,0.1);padding:2px 8px;border-radius:3px}
+.narr-content{flex:1;overflow-y:auto}
+.narr-line{font-size:13px;line-height:1.7;margin-bottom:6px}
+.narr-line.system{color:var(--primary);font-style:italic}
+.options{flex-shrink:0;max-height:180px}
+.opt-btn{display:block;width:100%;text-align:left;background:rgba(201,168,76,0.08);border:1px solid var(--border);color:var(--text);padding:5px 10px;margin:2px 0;border-radius:3px;cursor:pointer;font-size:12px;transition:all .15s}
+.opt-btn:hover{background:rgba(201,168,76,0.2);border-color:var(--primary)}
+.opt-num{display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;background:var(--primary);color:var(--bg);border-radius:50%;font-size:9px;font-weight:bold;margin-right:6px}
+.opt-req{color:var(--dim);font-size:10px;margin-left:4px}
+.item-row{display:flex;align-items:center;gap:6px;font-size:12px;padding:2px 0;cursor:pointer;border-radius:2px}
+.item-row:hover{background:rgba(201,168,76,0.1)}
+.empty{color:var(--dim);font-size:11px;font-style:italic}
+.quest-status{font-size:9px;padding:1px 5px;border-radius:2px}
+.quest-status.active{background:rgba(201,168,76,0.2);color:#e8c84c}
+.quest-status.done{background:rgba(76,200,76,0.2);color:#4c8}
+.footer{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--secondary);border-top:1px solid var(--border);flex-shrink:0}
+.chat-input{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:6px;font-size:13px;outline:none}
+.chat-input:focus{border-color:var(--primary)}
+.send-btn{background:var(--primary);border:none;color:var(--bg);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:14px}
+.send-btn:hover{transform:scale(1.1)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--primary)}
+@media(max-width:768px){.left,.right{display:none}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hud">
+    <div class="hud-row">
+      <span class="hud-item"><i class="fas fa-heart"></i> <span id="hp">100</span>/<span id="hpm">100</span></span>
+      <span class="hud-item"><i class="fas fa-star"></i> <span id="mp">50</span>/<span id="mpm">50</span></span>
+      <span class="hud-item"><i class="fas fa-level-up-alt"></i> Lv.<span id="lv">1</span></span>
+      <span class="hud-item"><i class="fas fa-map-pin"></i> <span id="loc">起始之森</span></span>
+    </div>
+    <div class="exp-bar"><div class="exp-fill" id="expb" style="width:0%"></div><span class="exp-text">EXP <span id="exp">0</span>/<span id="expn">100</span></span></div>
+  </div>
+  <div class="main">
+    <div class="left">
+      <div class="panel"><h3><i class="fas fa-crown"></i> 属性</h3><div id="stats"></div></div>
+      <div class="panel"><h3><i class="fas fa-shield-alt"></i> 装备</h3><div id="equip"></div></div>
+    </div>
+    <div class="center">
+      <div class="panel narrative">
+        <div class="narr-header"><span class="loc-tag" id="loctag">起始之森</span></div>
+        <div class="narr-content" id="narr">
+          <p class="narr-line">🌿 欢迎来到莫恩瑟利亚。</p>
+          <p class="narr-line">你缓缓睁开眼，发现自己躺在一片柔软的苔藓上。</p>
+          <p class="narr-line">阳光透过茂密的树冠洒落，空气中弥漫着泥土和野花的芬芳。</p>
+          <p class="narr-line">远处传来溪流潺潺的水声，林间偶尔有鸟鸣回响。</p>
+          <p class="narr-line">你摸了摸口袋，除了一封字迹模糊的信笺外，别无他物。</p>
+          <p class="narr-line">信纸已经泛黄，只能隐约辨认出几个字：</p>
+          <p class="narr-line system" style="text-indent:2em">「去风车镇——那里有答案。」</p>
+        </div>
+      </div>
+      <div class="panel options" id="optbox" style="display:none">
+        <h3><i class="fas fa-list"></i> 行动</h3><div id="opts"></div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="panel"><h3><i class="fas fa-shopping-bag"></i> 背包</h3><div id="inv"><div class="empty">空空如也</div></div></div>
+      <div class="panel"><h3><i class="fas fa-tasks"></i> 任务</h3><div id="quest"><div class="empty">无活跃任务</div></div></div>
+    </div>
+  </div>
+  <div class="footer">
+    <input type="text" id="input" class="chat-input" placeholder="输入你的行动…">
+    <button class="send-btn" id="send"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+<script>
+function init(){
+  // 状态
+  var S={hp:100,hpm:100,mp:50,mpm:50,lv:1,exp:0,expn:100}
+  function u(){
+    document.getElementById('hp').textContent=S.hp
+    document.getElementById('hpm').textContent=S.hpm
+    document.getElementById('mp').textContent=S.mp
+    document.getElementById('mpm').textContent=S.mpm
+    document.getElementById('lv').textContent=S.lv
+    document.getElementById('exp').textContent=S.exp
+    document.getElementById('expn').textContent=S.expn
+    document.getElementById('expb').style.width=Math.min(100,S.exp/S.expn*100)+'%'
+  }
+  function p(t){
+    var sm=t.match(/<status>([\\s\\S]*?)<\\/status>/)
+    if(sm){var b=sm[1]
+      var h=b.match(/HP\\s*:\\s*(\\d+)\\/(\\d+)/i);if(h){S.hp=+h[1];S.hpm=+h[2]}
+      var m=b.match(/MP\\s*:\\s*(\\d+)\\/(\\d+)/i);if(m){S.mp=+m[1];S.mpm=+m[2]}
+      var l=b.match(/LV\\s*:\\s*(\\d+)/i);if(l)S.lv=+l[1]
+      var e=b.match(/EXP\\s*:\\s*(\\d+)\\/(\\d+)/i);if(e){S.exp=+e[1];S.expn=+e[2]}
+      var L=b.match(/\\u4f4d\\u7f6e\\s*:\\s*(.+)/);if(L){document.getElementById('loc').textContent=L[1].trim();document.getElementById('loctag').textContent=L[1].trim()}
+      u()}
+    var om=t.match(/<options>([\\s\\S]*?)<\\/options>/)
+    var ob=document.getElementById('optbox'),od=document.getElementById('opts')
+    if(om){ob.style.display='block';od.innerHTML=''
+      om[1].split('\\n').forEach(function(l){var m=l.match(/^\\d+\\.\\s*(.*?)(?:\\[([^\\]]+)\\])?\\s*$/);if(m){var b=document.createElement('button');b.className='opt-btn';b.innerHTML='<span class="opt-num">'+(od.children.length+1)+'</span>'+m[1].trim();if(m[2])b.innerHTML+='<span class="opt-req">['+m[2]+']</span>';b.onclick=function(){send(m[1].trim())};od.appendChild(b)}})
+    }else ob.style.display='none'
+    var c=t.replace(/<[^>]+>[\\s\\S]*?<\\/[^>]+>/g,'').replace(/\\$\\$[\\s\\S]*?\\$\\$/g,'').trim()
+    if(c){var nc=document.getElementById('narr'),p=document.createElement('p');p.className='narr-line';p.textContent=c;nc.appendChild(p);nc.scrollTop=nc.scrollHeight}
+  }
+  function send(t){
+    if(!t)return
+    var nc=document.getElementById('narr'),p=document.createElement('p');p.className='narr-line system';p.textContent='> '+t;nc.appendChild(p);nc.scrollTop=nc.scrollHeight
+    var ta=document.querySelector('#send_textarea,textarea.message,.mes_textarea')
+    if(ta){ta.value=t;ta.dispatchEvent(new Event('input',{bubbles:true}));var sb=document.querySelector('#send_but,.send_but');if(sb)sb.click()}}
+  var lt=''
+  setInterval(function(){
+    var mes=document.querySelectorAll('.mes')
+    if(mes.length){var t=mes[mes.length-1].textContent||'';if(t&&t!==lt&&t.length>10){lt=t;p(t)}}
+  },1000)
+  document.getElementById('input').addEventListener('keydown',function(e){if(e.key==='Enter'){var inp=document.getElementById('input');send(inp.value);inp.value=''}})
+  document.getElementById('send').addEventListener('click',function(){var inp=document.getElementById('input');send(inp.value);inp.value=''})
+  u()
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init()
+</script>
+</body>
+</html>
