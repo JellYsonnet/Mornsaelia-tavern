@@ -3,14 +3,14 @@ import zlib from 'zlib'
 
 const root = 'D:/.openclaw/workspace/projects/Mornsaelia-tavern'
 
-// 前端 HTML → base64 → document.write loader
-const fhtml = fs.readFileSync(root + '/src/莫恩瑟利亚/前端/index.html', 'utf-8')
-const hb64 = Buffer.from(fhtml, 'utf-8').toString('base64')
-const inject = '<script>document.write(atob("' + hb64 + '"));<\u002Fscript>'
+// 标准 tavern_helper 前端界面
+// $('body').load(CDN) 加载前端 HTML，替换 body
+const frontendUrl = 'https://testingcf.jsdelivr.net/gh/JellYsonnet/Mornsaelia-tavern@main/dist/莫恩瑟利亚/前端/index.html'
+const codeBlock = '```\n<body>\n<script>\n$(\'body\').load(\'' + frontendUrl + '\')\n</script>\n</body>\n```'
 
 const regexScripts = [{
   id: 'mornsaelia_panel', scriptName: '莫恩瑟利亚面板',
-  findRegex: '/(莫恩瑟利亚)/s', replaceString: inject,
+  findRegex: '/(莫恩瑟利亚)/s', replaceString: codeBlock,
   placement: [2], markdownOnly: true, promptOnly: false, disabled: false,
 }]
 
@@ -21,7 +21,7 @@ const card = {
   description: '开放世界RPG — 同层前端卡',
   personality: 'GM。引导冒险、扮演NPC、管理D20检定。',
   scenario: '玩家在莫恩瑟利亚大陆苏醒，探索地图，与NPC互动，接受任务，战斗成长。',
-  first_mes: firstMsg, mes_example: '', creatorcomment: '渊琳 v2.7',
+  first_mes: firstMsg, mes_example: '', creatorcomment: '渊琳',
   avatar: 'none', talkativeness: '0.5', fav: false,
   tags: ['RPG', '开放世界', '同层前端', '莫恩瑟利亚'],
   data: {
@@ -29,7 +29,7 @@ const card = {
     personality: 'GM。引导冒险、扮演NPC、管理D20检定。',
     scenario: '玩家在莫恩瑟利亚大陆苏醒，探索地图，与NPC互动，接受任务，战斗成长。',
     first_mes: firstMsg, mes_example: '',
-    creator_notes: '渊琳 v2.7 — document.write 注入',
+    creator_notes: '渊琳 — 标准同层前端卡',
     character_version: 'v2.7',
     system_prompt: 'GM。描述场景、扮演NPC、D20检定。每次回复<status><options>。',
     post_history_instructions: '每次回复<status><options>。',
@@ -41,7 +41,7 @@ const card = {
 }
 
 const jsonStr = JSON.stringify(card)
-console.log(`📦 注入: ${(inject.length / 1024).toFixed(1)} KB | JSON: ${(jsonStr.length / 1024).toFixed(1)} KB`)
+console.log(`📦 JSON: ${(jsonStr.length / 1024).toFixed(1)} KB`)
 
 // PNG
 function crc32(b) {
@@ -80,4 +80,4 @@ const cb64 = Buffer.from(jsonStr, 'utf-8').toString('base64')
 png = ins(png, mt('chara', cb64)); png = ins(png, mt('ccv3', cb64))
 fs.mkdirSync(root + '/dist/莫恩瑟利亚/角色卡', { recursive: true })
 fs.writeFileSync(root + '/dist/莫恩瑟利亚/角色卡/莫恩瑟利亚.png', png)
-console.log(`✅ 已生成: ${(png.length / 1024).toFixed(1)} KB`)
+console.log(`✅ ${(png.length / 1024).toFixed(1)} KB`)
