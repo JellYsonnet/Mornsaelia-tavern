@@ -1,11 +1,172 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>莫恩瑟利亚</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+<script src="https://testingcf.jsdelivr.net/gh/n0vi028/JS-Slash-Runner/lib/tailwindcss.min.js"></script>
+<script src="https://testingcf.jsdelivr.net/npm/jquery"></script>
+<script src="https://testingcf.jsdelivr.net/gh/n0vi028/JS-Slash-Runner/src/iframe/adjust_iframe_height.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0!important;padding:0;overflow:hidden!important;max-width:100%!important;background:transparent}
+:root{
+  --primary:#c9a84c;
+  --secondary:#2c1810;
+  --accent:#8b0000;
+  --bg:#1a0f0a;
+  --panel:#2a1a10;
+  --text:#e8dcc8;
+  --dim:#8a7a6a;
+  --border:#4a3a2a;
+}
+body{font-family:'Segoe UI','Noto Sans SC','Microsoft YaHei',sans-serif;color:var(--text)}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:10px;margin-bottom:6px}
+.panel h3{font-size:11px;color:var(--primary);margin:0 0 6px;padding-bottom:3px;border-bottom:1px solid var(--border)}
+.panel h3 i{margin-right:4px}
+.hud{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;margin-bottom:6px}
+.hud-item{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:3px 8px}
+.hud-item i{color:var(--primary);margin-right:3px}
+.main{display:flex;gap:4px}
+.left,.right{width:140px;flex-shrink:0}
+.center{flex:1;min-width:0}
+.stat-row,.equip-row{display:flex;justify-content:space-between;font-size:11px;padding:1px 0}
+.stat-label,.equip-slot{color:var(--dim)}
+.stat-value{color:var(--text);font-weight:bold}
+.equip-item{color:var(--primary)}
+.narrative{max-height:200px;overflow-y:auto;font-size:12px;line-height:1.6}
+.narrative p{margin:0 0 4px}
+.narrative .s{color:var(--primary);font-style:italic}
+.opt-btn{display:block;width:100%;text-align:left;background:rgba(201,168,76,0.08);border:1px solid var(--border);color:var(--text);padding:4px 8px;margin:2px 0;border-radius:3px;cursor:pointer;font-size:11px;transition:all .15s}
+.opt-btn:hover{background:rgba(201,168,76,0.2);border-color:var(--primary)}
+.opt-num{display:inline-block;width:16px;height:16px;line-height:16px;text-align:center;background:var(--primary);color:var(--bg);border-radius:50%;font-size:9px;font-weight:bold;margin-right:6px}
+.item-row{display:flex;align-items:center;gap:4px;font-size:11px;padding:2px 0;cursor:pointer;border-radius:2px}
+.item-row:hover{background:rgba(201,168,76,0.1)}
+.empty{color:var(--dim);font-size:11px;font-style:italic}
+.exp-bar{height:4px;background:var(--bg);border-radius:2px;overflow:hidden;margin:4px 0}
+.exp-fill{height:100%;background:linear-gradient(90deg,var(--primary),#e8c84c);border-radius:2px;transition:width .3s}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+</style>
 </head>
 <body>
-<div id="app"></div>
+<div id="app">
+  <div class="hud" id="hud">
+    <span class="hud-item"><i class="fas fa-heart"></i> <span id="hp">100</span>/<span id="hpm">100</span></span>
+    <span class="hud-item"><i class="fas fa-star"></i> <span id="mp">50</span>/<span id="mpm">50</span></span>
+    <span class="hud-item"><i class="fas fa-level-up-alt"></i> Lv.<span id="lv">1</span></span>
+    <span class="hud-item"><i class="fas fa-map-pin"></i> <span id="loc">起始之森</span></span>
+  </div>
+
+  <div class="main">
+    <div class="left">
+      <div class="panel"><h3><i class="fas fa-crown"></i> 属性</h3>
+        <div id="stats"></div>
+      </div>
+      <div class="panel"><h3><i class="fas fa-shield-alt"></i> 装备</h3>
+        <div id="equip"></div>
+      </div>
+    </div>
+
+    <div class="center">
+      <div class="panel"><h3><i class="fas fa-book"></i> 叙事</h3>
+        <div class="narrative" id="narrative">
+          <p>🌿 欢迎来到莫恩瑟利亚。</p>
+          <p>你站在起始之森的入口，晨光透过树冠洒下斑驳光影。</p>
+        </div>
+      </div>
+      <div class="panel" id="options-box" style="display:none"><h3><i class="fas fa-list"></i> 行动</h3>
+        <div id="options"></div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="panel"><h3><i class="fas fa-shopping-bag"></i> 背包</h3>
+        <div id="inv"><span class="empty">空空如也</span></div>
+      </div>
+      <div class="panel"><h3><i class="fas fa-tasks"></i> 任务</h3>
+        <div id="quest"><span class="empty">无活跃任务</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exp-bar"><div class="exp-fill" id="exp-bar" style="width:0%"></div></div>
+</div>
+
+<script>
+// 解析 AI 回复中的标签
+function parseText(text) {
+  // <status>
+  const sm = text.match(/<status>([\s\S]*?)<\/status>/)
+  if (sm) {
+    const b = sm[1]
+    const hp = b.match(/HP\s*:\s*(\d+)\/(\d+)/i)
+    if (hp) { document.getElementById('hp').textContent = hp[1]; document.getElementById('hpm').textContent = hp[2] }
+    const mp = b.match(/MP\s*:\s*(\d+)\/(\d+)/i)
+    if (mp) { document.getElementById('mp').textContent = mp[1]; document.getElementById('mpm').textContent = mp[2] }
+    const lv = b.match(/LV\s*:\s*(\d+)/i)
+    if (lv) document.getElementById('lv').textContent = lv[1]
+    const loc = b.match(/位置\s*:\s*(.+)/)
+    if (loc) document.getElementById('loc').textContent = loc[1].trim()
+  }
+
+  // <options>
+  const om = text.match(/<options>([\s\S]*?)<\/options>/)
+  const obox = document.getElementById('options-box')
+  const odiv = document.getElementById('options')
+  if (om) {
+    obox.style.display = 'block'
+    odiv.innerHTML = ''
+    om[1].split('\n').forEach(line => {
+      const m = line.match(/^\d+\.\s*(.*?)(?:\[([^\]]+)\])?\s*$/)
+      if (m) {
+        const btn = document.createElement('button')
+        btn.className = 'opt-btn'
+        btn.innerHTML = `<span class="opt-num">${odiv.children.length + 1}</span>${m[1].trim()}${m[2] ? `<span style="color:var(--dim);font-size:10px;margin-left:4px">[${m[2]}]</span>` : ''}`
+        btn.onclick = () => { sendMsg(m[1].trim()) }
+        odiv.appendChild(btn)
+      }
+    })
+  } else {
+    obox.style.display = 'none'
+  }
+}
+
+// 发送消息到酒馆
+function sendMsg(text) {
+  const ta = document.querySelector('#send_textarea, textarea.message, .mes_textarea, textarea')
+  if (ta) {
+    ta.value = text
+    ta.dispatchEvent(new Event('input', { bubbles: true }))
+    const send = document.querySelector('#send_but, .send_but, button[title="发送"]')
+    if (send) send.click()
+  }
+}
+
+// 监听消息
+let lastText = ''
+function checkMessages() {
+  const mes = document.querySelectorAll('.mes')
+  if (mes.length && mes[mes.length - 1]) {
+    const t = mes[mes.length - 1].textContent || ''
+    if (t !== lastText && t.length > 10) {
+      lastText = t
+      parseText(t)
+    }
+  }
+}
+setInterval(checkMessages, 1000)
+
+// 初始解析
+setTimeout(() => {
+  const mes = document.querySelectorAll('.mes')
+  if (mes.length) parseText(mes[mes.length - 1].textContent || '')
+}, 2000)
+
+// 通知父窗口就绪
+if (window.parent !== window) {
+  window.parent.postMessage({ type: 'mornsaelia_ready' }, '*')
+}
+</script>
 </body>
 </html>
