@@ -3022,8 +3022,13 @@ packages:
   node-addon-api@7.1.1:
     resolution: {integrity: sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==}
 
+<<<<<<< HEAD
   node-releases@2.0.52:
     resolution: {integrity: sha512-MRlTqhAfoMx/4mhEbPo3Hi02g9LJZaJkka69V6h67Cb1gjrAG0jsTE4CZX1eptNx+VCAwJmfpnDIF4P0Nh1A7A==}
+=======
+  node-releases@2.0.51:
+    resolution: {integrity: sha512-wRNIrw4DmVLKQlbgOMdkMx27Wrpzes2hh5Jtbi2bjPd+4wJstWIqP5A+lscnqbm0xxmT5Bpg8Lec5ItEBwx6BQ==}
+>>>>>>> ffcef6e22b372e2f3dcc1048bf50073234505d74
     engines: {node: '>=18'}
 
   normalize-path@3.0.0:
@@ -3790,8 +3795,13 @@ packages:
       uglify-js:
         optional: true
 
+<<<<<<< HEAD
   terser@5.49.1:
     resolution: {integrity: sha512-7A2xlQ5EnGT8KPA92dUh6RbRYTVw8hEaEN9L1K68l4UOXFuV511NnAqObGoRqGOQofQcMypisu1s3xawCEHrvA==}
+=======
+  terser@5.49.0:
+    resolution: {integrity: sha512-SNiDnXyHSrxVcIOtVbULzcTmniUiwcV7Nwdyj1twVubeTmbjoa8p69KKDpfkdoOavuM4/GRm1+ykI8qqnavHoA==}
+>>>>>>> ffcef6e22b372e2f3dcc1048bf50073234505d74
     engines: {node: '>=10'}
     hasBin: true
 
@@ -5388,7 +5398,11 @@ snapshots:
       baseline-browser-mapping: 2.11.12
       caniuse-lite: 1.0.30001806
       electron-to-chromium: 1.5.400
+<<<<<<< HEAD
       node-releases: 2.0.52
+=======
+      node-releases: 2.0.51
+>>>>>>> ffcef6e22b372e2f3dcc1048bf50073234505d74
       update-browserslist-db: 1.2.3(browserslist@4.28.7)
 
   buffer-from@1.1.2: {}
@@ -6429,7 +6443,11 @@ snapshots:
       he: 1.2.0
       param-case: 3.0.4
       relateurl: 0.2.7
+<<<<<<< HEAD
       terser: 5.49.1
+=======
+      terser: 5.49.0
+>>>>>>> ffcef6e22b372e2f3dcc1048bf50073234505d74
 
   html-minifier-terser@7.2.0:
     dependencies:
@@ -6439,7 +6457,11 @@ snapshots:
       entities: 4.5.0
       param-case: 3.0.4
       relateurl: 0.2.7
+<<<<<<< HEAD
       terser: 5.49.1
+=======
+      terser: 5.49.0
+>>>>>>> ffcef6e22b372e2f3dcc1048bf50073234505d74
 
   html-void-elements@3.0.0: {}
 
@@ -7188,7 +7210,11 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
       schema-utils: 4.3.3
+<<<<<<< HEAD
       terser: 5.49.1
+=======
+      terser: 5.49.0
+>>>>>>> ffcef6e22b372e2f3dcc1048bf50073234505d74
       webpack: 5.109.2(postcss@8.5.25)(webpack-cli@7.2.2)
     optionalDependencies:
       postcss: 8.5.25
@@ -7244,7 +7270,11 @@ snapshots:
   node-addon-api@7.1.1:
     optional: true
 
+<<<<<<< HEAD
   node-releases@2.0.52: {}
+=======
+  node-releases@2.0.51: {}
+>>>>>>> ffcef6e22b372e2f3dcc1048bf50073234505d74
 
   normalize-path@3.0.0: {}
 
@@ -8015,12 +8045,20 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
       schema-utils: 4.3.3
+<<<<<<< HEAD
       terser: 5.49.1
+=======
+      terser: 5.49.0
+>>>>>>> ffcef6e22b372e2f3dcc1048bf50073234505d74
       webpack: 5.109.2(postcss@8.5.25)(webpack-cli@7.2.2)
     optionalDependencies:
       postcss: 8.5.25
 
+<<<<<<< HEAD
   terser@5.49.1:
+=======
+  terser@5.49.0:
+>>>>>>> ffcef6e22b372e2f3dcc1048bf50073234505d74
     dependencies:
       '@jridgewell/source-map': 0.3.11
       acorn: 8.18.0
