@@ -1142,8 +1142,13 @@ packages:
   '@webassemblyjs/wast-printer@1.14.1':
     resolution: {integrity: sha512-kPSSXE6De1XOR820C90RIo2ogvZG+c3KiHzqUoO/F34Y2shGzesfqv7o57xrxovZJH/MetF5UjroJ/R/3isoiw==}
 
+<<<<<<< HEAD
   '@webgpu/types@0.1.72':
     resolution: {integrity: sha512-0cF7RFM2edNoiIS1ODJp0/Gzv4/xSXhwoR0YCza+OWpJWtn4wmo9DvK91aLlH9+uUnwIriP7ZiC3WitmyhuzBw==}
+=======
+  '@webgpu/types@0.1.71':
+    resolution: {integrity: sha512-mMy8/ODcKhab808co15eW+yN+HgXoQxRQHTiBV9Mrvl1r0ufnid7YOcI+gi4eUWSWl9ezD6TW2KXccrL8HCh2A==}
+>>>>>>> fe7d6686eaa214f144c2a734be2e26ca399f3d3d
 
   '@xmldom/xmldom@0.8.14':
     resolution: {integrity: sha512-T4EDRUBVZYRldYApjEJiU0e1stYWaRAX7CuSnKzrpwdZKo53zGV8/pqfzV6FfwNl9YThD2OumQYvqtvjvgG7aQ==}
@@ -1736,8 +1741,13 @@ packages:
   earcut@3.2.3:
     resolution: {integrity: sha512-vnS4AVwp1KHAF13i1vp1/2D5evWy3k5u/iW/B81QVsUZtV8cv2tU0b2VNFlqvh4kYwrFMDdjPCfAmfyJW9y14Q==}
 
+<<<<<<< HEAD
   electron-to-chromium@1.5.411:
     resolution: {integrity: sha512-gglkxzokjHfawpGxq75XdBV2/l3BAPzrsMs70qgaZdTW5rpV1tC4MdgJVP9fN126bODA4ZJQkn1wryEzJyQXIg==}
+=======
+  electron-to-chromium@1.5.410:
+    resolution: {integrity: sha512-Vq9DD7F4PKCKVmOoG6i1CQSYoF7IUtwTPEQjMXuqNs2S22H8HsojO9myaB81QuvvIKZaF6imSn3XAV1Su6rvXA==}
+>>>>>>> fe7d6686eaa214f144c2a734be2e26ca399f3d3d
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -5173,7 +5183,11 @@ snapshots:
       '@webassemblyjs/ast': 1.14.1
       '@xtuc/long': 4.2.2
 
+<<<<<<< HEAD
   '@webgpu/types@0.1.72': {}
+=======
+  '@webgpu/types@0.1.71': {}
+>>>>>>> fe7d6686eaa214f144c2a734be2e26ca399f3d3d
 
   '@xmldom/xmldom@0.8.14': {}
 
@@ -5387,7 +5401,11 @@ snapshots:
     dependencies:
       baseline-browser-mapping: 2.11.15
       caniuse-lite: 1.0.30001809
+<<<<<<< HEAD
       electron-to-chromium: 1.5.411
+=======
+      electron-to-chromium: 1.5.410
+>>>>>>> fe7d6686eaa214f144c2a734be2e26ca399f3d3d
       node-releases: 2.0.53
       update-browserslist-db: 1.3.1(browserslist@4.28.8)
 
@@ -5814,7 +5832,11 @@ snapshots:
 
   earcut@3.2.3: {}
 
+<<<<<<< HEAD
   electron-to-chromium@1.5.411: {}
+=======
+  electron-to-chromium@1.5.410: {}
+>>>>>>> fe7d6686eaa214f144c2a734be2e26ca399f3d3d
 
   emoji-regex@8.0.0: {}
 
@@ -7428,7 +7450,11 @@ snapshots:
     dependencies:
       '@pixi/colord': 2.9.6
       '@types/earcut': 3.0.0
+<<<<<<< HEAD
       '@webgpu/types': 0.1.72
+=======
+      '@webgpu/types': 0.1.71
+>>>>>>> fe7d6686eaa214f144c2a734be2e26ca399f3d3d
       '@xmldom/xmldom': 0.8.14
       earcut: 3.2.3
       eventemitter3: 5.0.4
