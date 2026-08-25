@@ -1736,8 +1736,13 @@ packages:
   earcut@3.2.3:
     resolution: {integrity: sha512-vnS4AVwp1KHAF13i1vp1/2D5evWy3k5u/iW/B81QVsUZtV8cv2tU0b2VNFlqvh4kYwrFMDdjPCfAmfyJW9y14Q==}
 
+<<<<<<< HEAD
   electron-to-chromium@1.5.414:
     resolution: {integrity: sha512-aYlviXiaXBbzvKgyALpcMmqa3Np3sDr0XnZbEG62n2UpZFbEcjQ4EEMOLGzVPhwVnwTz0lvKY+GcARbunuHekw==}
+=======
+  electron-to-chromium@1.5.413:
+    resolution: {integrity: sha512-F1XPKvt7HVfly5WND90ec16nFsdr4g5x/cVUP3EqjeyXynupabGDqpMa84wwvuYGDnldXLBz6DLXyZXWO9TPvw==}
+>>>>>>> bc44abea1c2f7980dd9a2d9b909b4ad64bc8bdee
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -5379,7 +5384,11 @@ snapshots:
     dependencies:
       baseline-browser-mapping: 2.11.19
       caniuse-lite: 1.0.30001810
+<<<<<<< HEAD
       electron-to-chromium: 1.5.414
+=======
+      electron-to-chromium: 1.5.413
+>>>>>>> bc44abea1c2f7980dd9a2d9b909b4ad64bc8bdee
       node-releases: 2.0.53
       update-browserslist-db: 1.3.1(browserslist@4.28.8)
 
@@ -5804,7 +5813,11 @@ snapshots:
 
   earcut@3.2.3: {}
 
+<<<<<<< HEAD
   electron-to-chromium@1.5.414: {}
+=======
+  electron-to-chromium@1.5.413: {}
+>>>>>>> bc44abea1c2f7980dd9a2d9b909b4ad64bc8bdee
 
   emoji-regex@8.0.0: {}
 
