@@ -116,8 +116,12 @@
       "unrs-resolver",
       "vue-demi"
     ]
+<<<<<<< HEAD
   },
   "name": "moenseslia-tavern",
   "description": "莫恩瑟利亚 — 开放世界RPG 酒馆助手前端卡",
   "version": "1.0.0"
+=======
+  }
+>>>>>>> 7f92d0b6cabecacd6ca52f5c77d6f18fa6a3b4b9
 }
